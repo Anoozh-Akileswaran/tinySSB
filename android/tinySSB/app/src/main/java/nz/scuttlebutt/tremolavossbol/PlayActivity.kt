@@ -23,7 +23,7 @@ import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+//Not necessairy
 class PlayActivity: AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private val refreshRate = 60L

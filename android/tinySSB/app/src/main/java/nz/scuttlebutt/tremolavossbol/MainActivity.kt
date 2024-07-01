@@ -33,7 +33,7 @@ import kotlin.concurrent.thread
 
 
 // import nz.scuttlebutt.tremolavossbol.MainActivity
-
+//merken
 
 class MainActivity : Activity() {
     // lateinit var tremolaState: TremolaState

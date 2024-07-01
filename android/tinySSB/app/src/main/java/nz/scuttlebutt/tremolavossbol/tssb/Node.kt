@@ -1,5 +1,5 @@
 package nz.scuttlebutt.tremolavossbol.tssb
-
+//merken
 import android.content.Context
 import android.util.Log
 import nz.scuttlebutt.tremolavossbol.MainActivity
@@ -156,7 +156,7 @@ class Node(val context: MainActivity) {
         if (buf.size != TINYSSB_PKT_LEN) return
         context.tinyRepo.sidechain_append(buf, fid, seq)
     }
-
+//Important: content added to repo.
     fun publish_public_content(content: ByteArray) {
         val repo = context.tinyRepo
         Log.d("node", "publish_public_content ${content.size}B")

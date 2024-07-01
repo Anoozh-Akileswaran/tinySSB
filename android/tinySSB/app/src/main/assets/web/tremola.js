@@ -1,5 +1,5 @@
 // tremola.js
-
+//merken
 "use strict";
 
 var tremola;
@@ -279,7 +279,7 @@ function menu_pick_image() {
 }
 
 // ---
-
+//important: Sending new messages
 function new_text_post(s) {
     if (s.length == 0) {
         return;
@@ -427,7 +427,7 @@ function load_chat_title(ch) {
     box += "<div style='color: black; text-overflow: ellipsis; overflow: hidden;'>" + escapeHTML(recps2display(ch.members)) + "</div></div>";
     c.innerHTML = box;
 }
-
+//Important
 function load_chat_list() {
     var meOnly = recps2nm([myId])
     // console.log('meOnly', meOnly)
@@ -788,7 +788,7 @@ function import_id(json_str) {
 
 
 // --- Interface to Kotlin side and local (browser) storage
-
+//important
 function backend(cmdStr) { // send this to Kotlin (or simulate in case of browser-only testing)
     if (typeof Android != 'undefined') {
         Android.onFrontendRequest(cmdStr);
@@ -872,7 +872,7 @@ function resetTremola() { // wipes browser-side content
 
     tremola.chats["ALL"] = {
         "alias": "Public channel", "posts": {},
-        "members": ["ALL"], "touched": Date.now(), "lastRead": 0,
+        "members": ["ALLtest"], "touched": Date.now(), "lastRead": 0,
         "timeline": new Timeline()
     };
     tremola.contacts[myId] = {"alias": "me", "initial": "M", "color": "#bd7578", "iam": "", "forgotten": false};
@@ -1091,7 +1091,7 @@ function b2f_new_incomplete_event(e) {
 
 
 }
-
+//log entries are new information for Replica.
 /**
  * This function is called, when the backend received a new log entry and successfully completed the corresponding sidechain.
  * This callback does not ensure any specific order; the log entries are forwarded in the order they are received.
@@ -1104,6 +1104,7 @@ function b2f_new_incomplete_event(e) {
  * @param {[]} e.public The payload of the message. The first entry is a String that represents the application to which the message belongs. All additional entries are application-specific parameters.
  *
  */
+ //important
 function b2f_new_event(e) { // incoming SSB log event: we get map with three entries
                             // console.log('hdr', JSON.stringify(e.header))
     console.log('pub', JSON.stringify(e.public))

@@ -1,5 +1,5 @@
 package nz.scuttlebutt.tremolavossbol.tssb
-
+//merken
 import android.util.AtomicFile
 import android.util.Log
 import nz.scuttlebutt.tremolavossbol.MainActivity
@@ -131,7 +131,7 @@ class Replica(val context: MainActivity, val datapath: File, val fid: ByteArray)
         f.write(state.toWire())
         fnt.finishWrite(f)
     }
-
+//Important: Append new log entry into Replica
     fun ingest_entry_pkt(pkt: ByteArray, seq: Int): Boolean {
         Log.d("Replica", "ingest_entry_pkt")
         var sendToFront = false
@@ -164,6 +164,7 @@ class Replica(val context: MainActivity, val datapath: File, val fid: ByteArray)
         }
         var log_entry = pkt + ByteArray(chunk_cnt * TINYSSB_PKT_LEN)
         log_entry += state.max_pos.toByteArray()
+    //Append to log-file.
         log.appendBytes(log_entry)
         if (chunk_cnt > 0) {
             val ptr = pkt.sliceArray(36 until 56)
@@ -192,6 +193,7 @@ class Replica(val context: MainActivity, val datapath: File, val fid: ByteArray)
         context.wai.sendIncompleteEntryToFrontend(fid, seq, (nam + pkt).sha256().sliceArray(0 until HASH_LEN), content)
 
         if(sendToFront)
+            //Send to frontend
             context.wai.sendTinyEventToFrontend(fid, seq, (nam + pkt).sha256().sliceArray(0 until HASH_LEN), read_content(seq)!!)
         return true
     }
@@ -401,7 +403,7 @@ class Replica(val context: MainActivity, val datapath: File, val fid: ByteArray)
         persist_frontier(seq, wire.size + 4, (nam +wire).sha256().sliceArray(0 until HASH_LEN))
         return seq
     }
-
+//Important: New log entry
     fun write(c: ByteArray): Int {
         var content = c
         if(log.length().toInt() != state.max_pos)

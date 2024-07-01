@@ -1,5 +1,5 @@
 package nz.scuttlebutt.tremolavossbol
-
+//merken
 import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -27,12 +27,12 @@ import org.json.JSONArray
 
 
 // pt 3 in https://betterprogramming.pub/5-android-webview-secrets-you-probably-didnt-know-b23f8a8b5a0c
-
+//interface functionalites
 class WebAppInterface(val act: MainActivity, val webView: WebView) {
 
     var frontend_ready = false
     val frontend_frontier = act.getSharedPreferences("frontend_frontier", Context.MODE_PRIVATE)
-
+//important
     @JavascriptInterface
     fun onFrontendRequest(s: String) {
         //handle the data captured from webview}
@@ -252,7 +252,7 @@ class WebAppInterface(val act: MainActivity, val webView: WebView) {
             }
         }
     }
-
+//Important: connects the .kt functions with the tremola.js
     fun eval(js: String) { // send JS string to webkit frontend for execution
         webView.post(Runnable {
             webView.evaluateJavascript(js, null)
@@ -270,7 +270,7 @@ class WebAppInterface(val act: MainActivity, val webView: WebView) {
         Toast.makeText(act, "Import of new ID failed.", Toast.LENGTH_LONG).show()
         return false
     }
-
+//Important: Actual sending happening
     fun public_post_with_voice(tips: ArrayList<String>, text: String?, voice: ByteArray?) {
         if (text != null)
             Log.d("wai", "post_voice t- ${text}/${text.length}")

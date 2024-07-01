@@ -22,7 +22,7 @@ import nz.scuttlebutt.tremolavossbol.audio.Timer
 import tremolavossbol.R
 import java.io.ByteArrayOutputStream
 
-
+//Not necessairy
 class RecordActivity : AppCompatActivity(), Timer.OnTimerUpdateListener {
     private val PERMISSION_REQUEST = 789
     private val CHOOSEFILE_REQUEST = 987

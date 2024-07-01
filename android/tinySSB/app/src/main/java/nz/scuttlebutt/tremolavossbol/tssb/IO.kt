@@ -25,7 +25,7 @@ import java.util.zip.CRC32
             // OK, I'm done talking - leave the group...
             mc_socket.leaveGroup(mc_group);
 */
-
+//Messages are put on a queue/buffer and the senderloop transfer it.
 class IO(val context: MainActivity, val wai: WebAppInterface?) {
     val IO_MAX_QUEUE_LEN = 10
     val outqueue = ArrayDeque<ByteArray>()
@@ -65,7 +65,7 @@ class IO(val context: MainActivity, val wai: WebAppInterface?) {
             (crc32.value and 0xff).toByte())
         return x.contentEquals(crcBuf)
     }
-
+    //Important: Looping Sender
     @RequiresApi(Build.VERSION_CODES.O)
     fun senderLoop() {
         while (true) {
@@ -103,7 +103,7 @@ class IO(val context: MainActivity, val wai: WebAppInterface?) {
             Thread.sleep(1000) // slow pace
         }
     }
-
+//Important: Looping receiver
     fun mcReceiverLoop(lck: ReentrantLock) {
         val pkt = ByteArray(256)
         val ingram = DatagramPacket(pkt, pkt.size)
