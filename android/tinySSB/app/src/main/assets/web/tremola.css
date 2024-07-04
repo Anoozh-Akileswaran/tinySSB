@@ -681,6 +681,30 @@ input:checked + .slider:before {
   background-repeat: no-repeat;
   background-position: center;
   height: 40px;
-  width: 35px
+  width: 150px
+}
+
+
+.kanban_create_personal_btn:hover {
+  background-color: #ddd;
+}
+
+.question {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.answer {
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+.scroll-area {
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
 }
 
