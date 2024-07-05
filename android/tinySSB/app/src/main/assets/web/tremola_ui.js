@@ -249,6 +249,8 @@ function closeOverlay() {
     document.getElementById('div:item_menu').style.display = 'none';
     document.getElementById("kanban-invitations-overlay").style.display = 'none';
     document.getElementById('kanban-create-personal-board-overlay').style.display = 'none';
+    document.getElementById('quiz-create-game-overlay').style.display = 'none';
+    document.getElementById('new-question-set-overlay').style.display = 'none';
     curr_item = null
     close_board_context_menu()
     document.getElementById('btn:item_menu_description_save').style.display = 'none'
