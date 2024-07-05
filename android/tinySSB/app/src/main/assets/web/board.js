@@ -220,7 +220,7 @@ function leave(bid) {
     board_send_to_backend(data)
 }
 
-
+//Front-end to backend
 function board_send_to_backend(data) {
     var bid = data['bid'] != null ? data['bid'] : "null"
     var prevs = data['prev'] != null ? btoa(data['prev'].map(btoa)) : "null"
@@ -229,7 +229,7 @@ function board_send_to_backend(data) {
     var to_backend = ['kanban', bid, prevs, op, args]
     backend(to_backend.join(" "))
 }
-
+//Backend-to frontend
 function kanban_new_event(e) {
     // parse data
     var op = e.public[3]

@@ -890,6 +890,7 @@ function resetTremola() { // wipes browser-side content
         "id": myId,
         "settings": get_default_settings(),
         "board": {}
+        "player": {}
     }
     var n = recps2nm([myId])
 

@@ -338,7 +338,7 @@ class Replica(val context: MainActivity, val datapath: File, val fid: ByteArray)
         }
     }
 
-
+//Important: Extract Replica Inforamtion.
     fun read_content(seq: Int): ByteArray? {
         if (state.max_seq < seq || seq < 1)
             return null

@@ -1,7 +1,7 @@
 // tremola.js
 //merken
 "use strict";
-
+//tremola contact and localpeers
 var tremola;
 var curr_chat;
 var qr;
@@ -450,7 +450,7 @@ function load_chat_list() {
             if (p != meOnly && tremola.chats[p]['forgotten'])
                 load_chat_item(p)
 }
-
+//Important: Chat bubble.
 function load_chat_item(nm) { // appends a button for conversation with name nm to the conv list
     var cl, mem, item, bg, row, badge, badgeId, cnt;
     cl = document.getElementById('lst:chats');
@@ -791,6 +791,7 @@ function import_id(json_str) {
 //important
 function backend(cmdStr) { // send this to Kotlin (or simulate in case of browser-only testing)
     if (typeof Android != 'undefined') {
+    //Only intersection to "WebAppInterface.kt"
         Android.onFrontendRequest(cmdStr);
         return;
     }
@@ -858,6 +859,8 @@ function resetTremola() { // wipes browser-side content
         "id": myId,
         "settings": get_default_settings(),
         "board": {}
+        // Important: for Kahoot
+        "player": {}
     }
     var n = recps2nm([myId])
 

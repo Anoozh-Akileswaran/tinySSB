@@ -24,7 +24,7 @@ var scenarioDisplay = {
     'kanban': ['div:qr', 'core', 'lst:kanban', 'div:footer', 'plus'],
     'board': ['div:back', 'core', 'div:board']
 }
-
+//Important: dropdown menu
 var scenarioMenu = {
     'chats': [['Connected Devices', 'menu_connection'], // '['New conversation', 'menu_new_conversation'],' TODO reactivate when encrypted chats are implemented
         ['Settings', 'menu_settings'],
