@@ -860,7 +860,7 @@ function resetTremola() { // wipes browser-side content
         "settings": get_default_settings(),
         "board": {}
         // Important: for Kahoot
-        "player": {}
+        //"player": {}
     }
     var n = recps2nm([myId])
 
