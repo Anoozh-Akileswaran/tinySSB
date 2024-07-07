@@ -22,7 +22,8 @@ var scenarioDisplay = {
     'members': ['div:back', 'core', 'lst:members', 'div:confirm-members'],
     'settings': ['div:back', 'div:settings', 'core'],
     'kanban': ['div:qr', 'core', 'lst:kanban', 'div:footer', 'plus'],
-    'board': ['div:back', 'core', 'div:board']
+    'board': ['div:back', 'core', 'div:board'],
+    //'kahoot': ['div:qr', 'core', 'lst:kahoot', 'div:footer', 'plus'],
 }
 
 var scenarioMenu = {
@@ -106,6 +107,7 @@ function onBackPressed() {
     }
 }
 
+//Here string 'kahoot' comes in now
 function setScenario(s) {
     // console.log('setScenario ' + s)
     closeOverlay();
@@ -169,6 +171,7 @@ function setScenario(s) {
                 menu_create_personal_board()
             }
         }
+
         // Hide kahoot-create-quiz-overlay when switching scenarios
         document.getElementById('quiz-master-title').style.display = 'none';
         // Hide bottom buttons
@@ -188,7 +191,7 @@ function setScenario(s) {
 
 function btnBridge(e) {
     var e = e.id, m = '';
-    if (['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex', 'btn:kanban'].indexOf(e) >= 0) {
+    if (['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex', 'btn:kanban', 'btn:kahoot'].indexOf(e) >= 0) {
         setScenario(e.substring(4));
     }
     if (e == 'btn:menu') {
@@ -262,12 +265,6 @@ function closeOverlay() {
     document.getElementById('div:item_menu').style.display = 'none';
     document.getElementById("kanban-invitations-overlay").style.display = 'none';
     document.getElementById('kanban-create-personal-board-overlay').style.display = 'none';
-
-    //Kahoot overlays
-    document.getElementById('kahoot-overlay').style.display = 'none';
-    document.getElementById('quiz-create-game-overlay').style.display = 'none';
-    document.getElementById('new-question-set-overlay').style.display = 'none';
-
     curr_item = null
     close_board_context_menu()
     document.getElementById('btn:item_menu_description_save').style.display = 'none'
