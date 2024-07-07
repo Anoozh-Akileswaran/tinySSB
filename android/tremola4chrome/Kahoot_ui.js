@@ -276,3 +276,105 @@ function btn_list_question_set() {
 }
 
 
+//JAKOB
+
+//handleInitialKahootButton
+/*
+Enter btnBridge listener in html again to get this one working, or replicate here so it works
+*/
+function handleKahootButton() {
+    //Not needed atm, -> remove if not needed
+}
+
+
+function handleRanking1() {
+    // Remove an element
+
+    /*
+    var elementToRemove = document.getElementById('user-scores');
+    if (elementToRemove) {
+        elementToRemove.remove();
+    }
+    */
+
+
+    // Show an element
+
+    var elementToShow = document.getElementById('user-scores');
+    if (elementToShow) {
+        elementToShow.classList.remove('hidden');
+    }
+
+    //document.getElementById('user-scores').style.display = 'flex';
+
+}
+
+//handleEnterGame
+function handleEnterGame() {
+
+}
+
+//handle createGame
+function handleCreateGame() {
+
+}
+
+
+
+//added
+// Sample data (could be replaced by an API call or another data source)
+const userData = [
+    { username: 'user1', id: '12345', score: 95 },
+    { username: 'user2', id: '67890', score: 88 },
+    // Add more user data as needed
+];
+
+function createTable(data) {
+    // Create table element
+    const table = document.createElement('table');
+
+    // Create table rows
+    data.forEach(user => {
+        const row = document.createElement('tr');
+
+        // Create username/ID cell
+        const userCell = document.createElement('td');
+        userCell.style.width = '70%';
+        const userButton = document.createElement('button');
+        userButton.className = 'w100 flat buttontext';
+        userButton.textContent = `${user.username}/${user.id}`;
+        userButton.onclick = function() { btnBridge(this); };
+        userCell.appendChild(userButton);
+        row.appendChild(userCell);
+
+        // Create score cell
+        const scoreCell = document.createElement('td');
+        scoreCell.className = 'score-background';
+        scoreCell.style.width = '30%';
+        scoreCell.style.textAlign = 'center';
+        scoreCell.textContent = user.score;
+        row.appendChild(scoreCell);
+
+        // Append row to table
+        table.appendChild(row);
+    });
+
+    return table;
+}
+
+function handleRanking() {
+    // Create and display the user scores table
+    const userScoresDiv = document.getElementById('user-scores');
+    userScoresDiv.innerHTML = ''; // Clear any existing content
+    const table = createTable(userData);
+    userScoresDiv.appendChild(table);
+    userScoresDiv.classList.remove('hidden');
+}
+
+// Ensure DOM is fully loaded before attaching events
+document.addEventListener('DOMContentLoaded', function() {
+    const userScoresDiv = document.getElementById('user-scores');
+    if (userScoresDiv) {
+        userScoresDiv.style.display = 'none';
+    }
+});
