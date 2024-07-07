@@ -321,7 +321,7 @@ function handleCreateGame() {
 
 
 
-//added
+//added -> maybe not needed (HTML currently missing)
 // Sample data (could be replaced by an API call or another data source)
 const userData = [
     { username: 'user1', id: '12345', score: 95 },
@@ -378,3 +378,8 @@ document.addEventListener('DOMContentLoaded', function() {
         userScoresDiv.style.display = 'none';
     }
 });
+//added -> maybe not needed (HTML currently missing)
+
+
+
+//Migrate from tremola_ui.js
