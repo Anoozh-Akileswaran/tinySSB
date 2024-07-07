@@ -282,11 +282,95 @@ function btn_list_question_set() {
 /*
 Enter btnBridge listener in html again to get this one working, or replicate here so it works
 */
-function handleKahootButton() {
-    //Not needed atm, -> remove if not needed
+//added
+function jakob_btnBridge(e) {
+    var e = e.id, m = '';
+    if (['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex', 'btn:kanban', 'btn:kahoot'].indexOf(e) >= 0) {
+        jakob_setScenario(e.substring(4));
+    }
 }
 
+function jakob_setScenario(s) {
+    // console.log('setScenario ' + s)
+    closeOverlay();
+    var lst = ['div:qr', 'core', 'lst:kahoot', 'div:footer', 'plus'];
+    if (lst) {
+        // if (s != 'posts' && curr_scenario != "members" && curr_scenario != 'posts') {
+        if (['chats', 'contacts', 'connex', 'kanban', 'kahoot'].indexOf(curr_scenario) >= 0) {
+            var cl = document.getElementById('btn:' + curr_scenario).classList;
+            cl.toggle('active', false);
+            cl.toggle('passive', true);
+        }
+        // console.log(' l: ' + lst)
+        display_or_not.forEach(function (d) {
+            // console.log(' l+' + d);
+            if (lst.indexOf(d) < 0) {
+                document.getElementById(d).style.display = 'none';
+            } else {
+                document.getElementById(d).style.display = null;
+                // console.log(' l=' + d);
+            }
+        })
+        // console.log('s: ' + s)
+        if (s != "board") {
+            document.getElementById('tremolaTitle').style.position = null;
+        }
 
+        if (s == "posts" || s == "settings" || s == "board") {
+            document.getElementById('tremolaTitle').style.display = 'none';
+            document.getElementById('conversationTitle').style.display = null;
+            // document.getElementById('plus').style.display = 'none';
+        } else {
+            document.getElementById('tremolaTitle').style.display = null;
+            // if (s == "connex") { /* document.getElementById('plus').style.display = 'none'; */}
+            // else { /* document.getElementById('plus').style.display = null; */}
+            document.getElementById('conversationTitle').style.display = 'none';
+        }
+        if (lst.indexOf('div:qr') >= 0) {
+            prev_scenario = s;
+        }
+        curr_scenario = s;
+        if (['chats', 'contacts', 'connex', 'kanban', 'kahoot'].indexOf(curr_scenario) >= 0) {
+            var cl = document.getElementById('btn:' + curr_scenario).classList;
+            cl.toggle('active', true);
+            cl.toggle('passive', false);
+        }
+        if (s == 'board')
+            document.getElementById('core').style.height = 'calc(100% - 60px)';
+        else
+            document.getElementById('core').style.height = 'calc(100% - 118px)';
+
+        if (s == 'kanban') {
+            var personalBoardAlreadyExists = false
+            for (var b in tremola.board) {
+                var board = tremola.board[b]
+                if (board.flags.indexOf(FLAG.PERSONAL) >= 0 && board.members.length == 1 && board.members[0] == myId) {
+                    personalBoardAlreadyExists = true
+                    break
+                }
+            }
+            if(!personalBoardAlreadyExists && display_create_personal_board) {
+                menu_create_personal_board()
+            }
+        }
+        // Hide kahoot-create-quiz-overlay when switching scenarios
+                document.getElementById('quiz-master-title').style.display = 'none';
+                // Hide bottom buttons
+                document.getElementById('kahoot-buttons').style.display = 'none';
+                // Hide user scores table
+                document.getElementById('user-scores').style.display = 'none';
+                if (s == 'kahoot') {
+                    console.log('Kahoot scenario activated');
+                    // Any additional initialization logic for Kahoot can go here
+                    //document.getElementById('lst:kahoot').style.display = 'block';
+                    document.getElementById('quiz-master-title').style.display = 'block';
+                    document.getElementById('kahoot-buttons').style.display = 'block';
+                    document.getElementById('user-scores').style.display = 'block';
+                }
+            }
+        }
+
+//Handle ranking
 function handleRanking1() {
     // Remove an element
 
@@ -318,67 +402,6 @@ function handleEnterGame() {
 function handleCreateGame() {
 
 }
-
-
-
-//added -> maybe not needed (HTML currently missing)
-// Sample data (could be replaced by an API call or another data source)
-const userData = [
-    { username: 'user1', id: '12345', score: 95 },
-    { username: 'user2', id: '67890', score: 88 },
-    // Add more user data as needed
-];
-
-function createTable(data) {
-    // Create table element
-    const table = document.createElement('table');
-
-    // Create table rows
-    data.forEach(user => {
-        const row = document.createElement('tr');
-
-        // Create username/ID cell
-        const userCell = document.createElement('td');
-        userCell.style.width = '70%';
-        const userButton = document.createElement('button');
-        userButton.className = 'w100 flat buttontext';
-        userButton.textContent = `${user.username}/${user.id}`;
-        userButton.onclick = function() { btnBridge(this); };
-        userCell.appendChild(userButton);
-        row.appendChild(userCell);
-
-        // Create score cell
-        const scoreCell = document.createElement('td');
-        scoreCell.className = 'score-background';
-        scoreCell.style.width = '30%';
-        scoreCell.style.textAlign = 'center';
-        scoreCell.textContent = user.score;
-        row.appendChild(scoreCell);
-
-        // Append row to table
-        table.appendChild(row);
-    });
-
-    return table;
-}
-
-function handleRanking() {
-    // Create and display the user scores table
-    const userScoresDiv = document.getElementById('user-scores');
-    userScoresDiv.innerHTML = ''; // Clear any existing content
-    const table = createTable(userData);
-    userScoresDiv.appendChild(table);
-    userScoresDiv.classList.remove('hidden');
-}
-
-// Ensure DOM is fully loaded before attaching events
-document.addEventListener('DOMContentLoaded', function() {
-    const userScoresDiv = document.getElementById('user-scores');
-    if (userScoresDiv) {
-        userScoresDiv.style.display = 'none';
-    }
-});
-//added -> maybe not needed (HTML currently missing)
 
 
 
