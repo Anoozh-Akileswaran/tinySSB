@@ -4,23 +4,30 @@ var new_QuestionSet = {
 "QuestionSetID": '',
 "Questions": [],
 
+
 }
 
+
+/*
+Button-reaction after "enter Game".
+List all the QuestionSets off all the player
+
+*/
 
 function enter_game(){
     document.getElementById('lst:Kahoot').innerHTML = '';
     var cl = document.getElementById('lst:Kahoot');
     for(var m in tremola.player){
         var player =  tremola.player[m];
-        if(myId != player.author){
+        if(myId != player.SendID){
             var playerItem = document.createElement('div');
             var playerName = document.createElement('h2');
-            playerName.textContent = player.author;
+            playerName.textContent = player.SendID;
             var questionSetItem = document.createElement('div');
             questionSetItem.classList.add("button-container");
 
         }
-        for(questionSet in player.QuestionSets){
+        for(var questionSet in player.QuestionSets){
             var item = document.createElement('div');
             if(questionSet.status == "open"){
                 var row = "<button class='kahoot_item_Button" + "' onclick='load_questionSet(" + questionSet.questionSetID + ");' style='overflow: hidden; position: relative;'>";
@@ -41,11 +48,16 @@ function enter_game(){
 
 }
 
+
+/*
+Load the pressed the QuestionSet, so therefore load the Questions
+
+*/
 function load_questionSet(questionSetID){
     current_QuestionSet = questionSetID;
     var target;
     initializeAnswerList();
-    for(m in tremola.player){
+    for(var m in tremola.player){
         var player = tremola.player[m];
         for(questionSet in player.QuestionSets){
             if(questionSet.questionSetID == questionSetID){
@@ -59,7 +71,7 @@ function load_questionSet(questionSetID){
 
     document.getElementById('questionlst:Kahoot').innerHTML = '';
     cl = document.getElementById('questionlst:Kahoot');
-    for(question in target.Questions){
+    for(var question in target.Questions){
         var item = document.createElement('div');
         var row = "<button class='kahoot_item_Button" + "' onclick='load_question(" + question.qID +", "+ target.questionSetID + ");' style='overflow: hidden; position: relative;'>";
         rwo += "</button>";
@@ -71,7 +83,10 @@ function load_questionSet(questionSetID){
 
 
 }
+/*
 
+Load the pressed Question, there Answers and the Question-phrased
+*/
 function load_question(qID, questionSetID){
     current_Question = qID;
     var target;
@@ -103,7 +118,9 @@ function load_question(qID, questionSetID){
     document.getElementById('Score-view:Kahoot') = target.score;
 
 }
-
+/*
+Initialize the the Answer-array.
+*/
 function initializeAnswerList(){
     for(var i = 0; i<current_QuestionSet; ++i){
         current_answers.push("null");
@@ -112,6 +129,10 @@ function initializeAnswerList(){
 
 }
 
+
+/*
+Store the Answer from AnswerFiled --> in current_Answer-Array
+*/
 function storeAnswer(qID, AnswerField){
     current_answers[qID-1] = document.getElementById(AnswerField+':Kahoot').innerText;
     //remove Questionwindow
@@ -119,6 +140,10 @@ function storeAnswer(qID, AnswerField){
     load_questionSet(current_QuestionSet);
 
 }
+
+/*
+Submit the Answers and directly grade the answers.
+*/
 
 function submitAnswerQuestions(current_QuestionSet){
     var solution = current_QuestionSet.Solution;
@@ -144,6 +169,10 @@ function submitAnswerQuestions(current_QuestionSet){
     }
 }
 
+/*
+List my QuestionSet in a certain format.
+*/
+
 function listQuestionSet(){
     var table = document.getElementById("").querySector('tbody');
     table.innerHTML = '';
@@ -156,24 +185,37 @@ function listQuestionSet(){
 
 }
 
+/*
+Generate a unique ID for the QuestionSetID
+*/
+function generateQuestionSetID(){
+
+    return Math.floor(1000000 * Math.random());
+}
+
+
+/*
+Submit the created QuestionSet to the Backend
+*/
 function questionSet_created(questionSet){
-
-
-
+    questionSet.QuestionSetID = generateQuestionSetID().toString();
     new_QuestionSet(questionSet);
 
 }
-
+//Update the UI, if a new QuestionSet is created, therefore update the List of the QuestionSet.
 function UI_new_QuestionSet(){
     enter_game();
 
 
 }
 
+
+//Update the UI, if a new Rank arrived, therefore update the RankingList.
 function UI_ranking_update(){
     showRanking();
 }
 
+//Show the RankingList on the UI
 function showRanking(){
     getRanks()
     var rankingsContainer = document.getElementById('rankingsContainer');

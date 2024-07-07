@@ -228,6 +228,16 @@ class WebAppInterface(val act: MainActivity, val webView: WebView) {
 
                 kanban(bid, prev , op, argsList)
             }
+
+            "Kahoot" -> {
+
+                val SendID: String? = if (args[1] != "null") args[1] else null
+                val op: String = args[2]
+                val argsList:List<String>? = if(args[3] != "null") Base64.decode(args[3], Base64.NO_WRAP).decodeToString().split(",").map{ Base64.decode(it, Base64.NO_WRAP).decodeToString()} else null
+                Kahoot(SendID, op, argsList)
+
+
+            }
             "iam" -> {
                 val new_alias = Base64.decode(args[1], Base64.NO_WRAP).decodeToString()
                 val lst = Bipf.mkList()
@@ -347,6 +357,44 @@ class WebAppInterface(val act: MainActivity, val webView: WebView) {
         //Log.d("KANBAN BIPF ENCODE", Bipf.bipf_list2JSON(Bipf.decode(body!!)!!).toString())
         //if (body != null)
             //act.tinyNode.publish_public_content(body)
+
+    }
+    /*
+        Kahoot-Function: Encapsulates the data from Kahoot and sends it as public content.
+
+
+    */
+    fun Kahoot(SendID:String?, operation:String, args: List<String>?){
+        val lst = Bipf.mkList()
+        Bipf.list_append(lst, TINYSSB_APP_KAHOOT)
+
+        if(SendID != null) {
+            Bipf.list_append(lst, Bipf.mkBytes(Base64.decode(SendID, Base64.NO_WRAP)))
+        } else {
+            Bipf.list_append(lst, Bipf.mkString("null"))  // TODO: Change to Bipf.mkNone(), but would be incompatible with the old format
+        }
+
+        Bipf.list_append(lst, Bipf.mkString(operation))
+
+        if (args != null) {
+            for (arg in args) {
+                if (Regex("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?\$").matches(arg)) {
+                    Bipf.list_append(lst, Bipf.mkBytes(Base64.decode(arg, Base64.NO_WRAP)))
+                } else { // arg is not a b64 string
+                    Bipf.list_append(lst, Bipf.mkString(arg))
+                }
+
+            }
+        }
+
+        val body = Bipf.encode(lst)
+
+        if (body != null) {
+            Log.d("Kahoot", "published bytes: " + Bipf.decode(body))
+            act.tinyNode.publish_public_content(body)
+        }
+
+
 
     }
 

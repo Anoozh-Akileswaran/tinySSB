@@ -1,4 +1,13 @@
-var my_QuestionSet = {}
+var my_QuestionSet = {
+"QuestionSetID": '',
+"Questions": [],
+//"Questions": [{"qID": '', "Question":'', "Answers": [], "score": 0 }, ...]
+"Solution": [],
+"TotalScore": 0
+
+}
+
+
 var Ranks = []
 var current_QuestionSet;
 var current_Question;
@@ -10,13 +19,18 @@ const Operation = {
 
 }
 
-function Kahoot_new_event(){
-    var operation = e.public[3]
-    var SendID = e.header.fid
-    var args = e.public.slice(4)
+
+/*
+Incoming new event caught
+*/
+function Kahoot_new_event(e){
+//'public': ["KAH", SendID, cmdStr[2]].concat(args)
+    var SendID = e.public[1]
+    var operation = e.public[2]
+    var args = e.public.slice(3)
     if(!(SendID in tremola.player)){
         tremola.player[SendID] = {
-            "author": SendID,
+            "SendID": SendID,
             "QuestionSets": [],
             "playerScore": = 0,
         }
@@ -25,34 +39,45 @@ function Kahoot_new_event(){
 
     if(op == Operation.UPDATE_SCORE){
         if(SendID != myId){
-            update_ranking(SendID, args[])
+            update_ranking(SendID, args[0])
 
         }
     }else if (op == Operation.NEW_QUESTIONSET){
             if(SendID != myId){
-                create_QuestionSet(SendID, args[])
+                create_QuestionSet(SendID, JSON.parse(args[0]))
 
             }else{
-                addToMyQuestionSet(args[])
+                addToMyQuestionSet(JSON.parse(args[0]));
 
             }
 
 
     }
 }
+
+
+/*
+Add new QuestionSet to my QuestionSetList
+*/
 function addToMyQuestionSet(questionSet){
-    for(var q in tremola.player[myId].questionSet){
+    for(var q in tremola.player[myId].QuestionSets){
         if(q.questionSetID == questionSet.questionSetID){
             return
         }
-    my_QuestionSet.push(questionSet)
-    tremola.player[myId].questionSet.push(questionSet)
+    my_QuestionSet.push(questionSet);
+    tremola.player[myId].questionSet.push(questionSet);
 
 
     }
 
 }
 
+
+
+/*
+Update new rankingList.
+
+*/
 function update_ranking(sendID, score){
     tremola.player[sendID].playerScore = score
     UI_ranking_update()
@@ -60,6 +85,10 @@ function update_ranking(sendID, score){
 }
 
 
+/*
+Send Data to  tremola.backend
+
+*/
 function kahoot_send_to_backend(data){
     var sendID = data["sendId"]
     var args = data["args"]
@@ -71,43 +100,63 @@ function kahoot_send_to_backend(data){
 }
 
 
+/*
+Update the score and send to backend
+*/
+
 function new_score_update(score){
     var data = {
         "sendID": myId,
         "cmd": Operation.UPDATE_SCORE,
-        "args": score
+        "args": [score.toString()]
     }
     kahoot_send_to_backend(data)
 
 
 }
 
+
+/*
+Send new created QuestionSet to the backend
+*/
+
 function new_QuestionSet(questionSet){
+    var questionSetJson = JSON.stringify(questionSet);
     var data = {
     "sendID": myId,
     "cmd": Operation.NEW_QUESTIONSET,
-    "args": questionSet
+    "args": [questionSetJson]
 
     }
     my_QuestionSet.push(data)
     kahoot_send_to_backend(data)
 }
 
+/*
+Store the received QuestionSet.
+
+*/
 function create_QuestionSet(SendID, QuestionSet){
+
     for(var q in tremola.player[SendID].QuestionSet){
         if(q.questionSetID == QuestionSet.questionSetID){
             return
         }
-        tremola.player[sendID].QuestionSet.push(QuestionSet)
+        tremola.player[sendID].QuestionSet.push(QuestionSet);
         UI_new_QuestionSet()
     }
 
 }
 
+
+/*
+Fill up the Rank-List.
+*/
+
 function getRanks(){
     for(var m in tremola.player){
         var player = tremola.player[m]
-        Ranks.push({"name": player.author, "score":player.playerScore})
+        Ranks.push({"name": player.SendID, "score":player.playerScore})
     }
 
     Ranks.sort((a,b)=> b.score-a.score)
