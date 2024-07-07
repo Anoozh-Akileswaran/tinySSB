@@ -112,7 +112,7 @@ function setScenario(s) {
     var lst = scenarioDisplay[s];
     if (lst) {
         // if (s != 'posts' && curr_scenario != "members" && curr_scenario != 'posts') {
-        if (['chats', 'contacts', 'connex', 'kanban'].indexOf(curr_scenario) >= 0) {
+        if (['chats', 'contacts', 'connex', 'kanban', 'kahoot'].indexOf(curr_scenario) >= 0) {
             var cl = document.getElementById('btn:' + curr_scenario).classList;
             cl.toggle('active', false);
             cl.toggle('passive', true);
@@ -146,7 +146,7 @@ function setScenario(s) {
             prev_scenario = s;
         }
         curr_scenario = s;
-        if (['chats', 'contacts', 'connex', 'kanban'].indexOf(curr_scenario) >= 0) {
+        if (['chats', 'contacts', 'connex', 'kanban', 'kahoot'].indexOf(curr_scenario) >= 0) {
             var cl = document.getElementById('btn:' + curr_scenario).classList;
             cl.toggle('active', true);
             cl.toggle('passive', false);
@@ -169,7 +169,20 @@ function setScenario(s) {
                 menu_create_personal_board()
             }
         }
-
+        // Hide kahoot-create-quiz-overlay when switching scenarios
+        document.getElementById('quiz-master-title').style.display = 'none';
+        // Hide bottom buttons
+        document.getElementById('kahoot-buttons').style.display = 'none';
+        // Hide user scores table
+        document.getElementById('user-scores').style.display = 'none';
+        if (s == 'kahoot') {
+            console.log('Kahoot scenario activated');
+            // Any additional initialization logic for Kahoot can go here
+            //document.getElementById('lst:kahoot').style.display = 'block';
+            document.getElementById('quiz-master-title').style.display = 'block';
+            document.getElementById('kahoot-buttons').style.display = 'block';
+            document.getElementById('user-scores').style.display = 'block';
+        }
     }
 }
 
