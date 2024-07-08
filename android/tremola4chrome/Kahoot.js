@@ -61,7 +61,7 @@ Add new QuestionSet to my QuestionSetList
 */
 function addToMyQuestionSet(questionSet){
     for(var q in tremola.player[myId].QuestionSets){
-        if(q.questionSetID == questionSet.questionSetID){
+        if(q.questionSetID == questionSet.QuestionSetID){
             return
         }
     my_QuestionSet.push(questionSet);
@@ -139,7 +139,7 @@ Store the received QuestionSet.
 function create_QuestionSet(SendID, QuestionSet){
 
     for(var q in tremola.player[SendID].QuestionSet){
-        if(q.questionSetID == QuestionSet.questionSetID){
+        if(q.questionSetID == QuestionSet.QuestionSetID){
             return
         }
         tremola.player[sendID].QuestionSet.push(QuestionSet);
@@ -163,9 +163,26 @@ function getRanks(){
 }
 
 
+/*
+get my Score
+*/
+function getMyScore(){
+
+    return tremola.player[myId].playerScore;
 
 
+}
 
+
+/*
+get my ID
+*/
+function getmyID(){
+
+    return tremola.player[myId].SendID;
+
+
+}
 
 
 

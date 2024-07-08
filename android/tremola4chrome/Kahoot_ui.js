@@ -60,7 +60,7 @@ function load_questionSet(questionSetID){
     for(var m in tremola.player){
         var player = tremola.player[m];
         for(questionSet in player.QuestionSets){
-            if(questionSet.questionSetID == questionSetID){
+            if(questionSet.QuestionSetID == questionSetID){
                 target = questionSet;
 
             }

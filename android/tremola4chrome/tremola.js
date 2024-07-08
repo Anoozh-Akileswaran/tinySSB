@@ -1232,7 +1232,11 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
             load_chat_list();
         } else if (e.public[0] == "KAN") { // Kanban board event
             b2f_new_in_order_event(e)
-        } else if (e.public[0] == "IAM") {
+
+        }else if (e.public[0] == "KAH"){ // Kahoot board event
+
+           b2f_new_in_order_event(e)
+        }else if (e.public[0] == "IAM") {
             var contact = tremola.contacts[e.header.fid]
             var old_iam = contact.iam
             var old_alias = contact.alias
