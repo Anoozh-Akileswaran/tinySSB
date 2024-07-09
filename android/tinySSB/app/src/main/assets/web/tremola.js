@@ -858,7 +858,7 @@ function resetTremola() { // wipes browser-side content
         "profile": {},
         "id": myId,
         "settings": get_default_settings(),
-        "board": {}
+        "board": {},
         // Important: for Kahoot
         "player": {}
     }
