@@ -186,6 +186,8 @@ function setScenario(s) {
         document.getElementById('game-table').style.display = 'none';
         // Hide list-set gamme table table
         document.getElementById('new-question-set-overlay').style.display = 'none';
+        // Hide list-set gamme table table
+        document.getElementById('choose-answer').style.display = 'none';
         if (s == 'kahoot') {
             console.log('Kahoot scenario activated');
             // Any additional initialization logic for Kahoot can go here

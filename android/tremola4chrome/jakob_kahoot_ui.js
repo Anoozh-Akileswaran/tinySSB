@@ -159,6 +159,8 @@ function jakob_setScenario(s) {
                 document.getElementById('game-table').style.display = 'none';
                 // Hide addQuestionButton
                 document.getElementById('new-question-set-overlay').style.display = 'none';
+                // Hide addQuestionButton
+                document.getElementById('choose-answer').style.display = 'none';
                 if (s == 'kahoot') {
                     console.log('Kahoot scenario activated');
                     // Any additional initialization logic for Kahoot can go here
