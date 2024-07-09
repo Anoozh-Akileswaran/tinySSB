@@ -3,7 +3,8 @@ var my_QuestionSet = {
 "Questions": [],
 //"Questions": [{"qID": '', "Question":'', "Answers": [], "score": 0 }, ...]
 "Solution": [],
-"TotalScore": 0
+"TotalScore": 0,
+"status": "open"
 
 }
 
@@ -32,7 +33,7 @@ function Kahoot_new_event(e){
         tremola.player[SendID] = {
             "SendID": SendID,
             "QuestionSets": [],
-            "playerScore": = 0,
+            "playerScore": = 0
         }
 
     }
