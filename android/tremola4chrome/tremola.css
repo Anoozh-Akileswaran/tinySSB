@@ -814,3 +814,56 @@ input:checked + .slider:before {
     font-weight: bold; /* Optional */
     margin-left: 30px; /* Adjust the space between as needed */
 }
+
+/* List set */
+/* Style the table */
+/* Style the table */
+#game-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif; /* Use a clean, modern font */
+    border: 1px solid #ddd; /* Light border around the table */
+}
+
+/* Style the title row */
+#title-row {
+    background-color: #4CAF50; /* Green background color */
+    color: white; /* White text color */
+}
+
+/* Style the table headers */
+#game-table th {
+    padding: 12px; /* Padding for space around the text */
+    text-align: left; /* Left align the text */
+    border-bottom: 1px solid #ddd; /* Border under headers */
+    width: 33.33%; /* Ensure each header column takes up equal space */
+}
+
+/* Style the table rows */
+#game-table td {
+    padding: 12px; /* Padding for space around the text */
+    border-bottom: 1px solid #ddd; /* Border under rows */
+    text-align: left; /* Left align the text */
+    width: 33.33%; /* Ensure each cell column takes up equal space */
+}
+
+/* Style even rows for solid background */
+#game-table tbody tr:nth-child(even) {
+    background-color: #e0e0e0; /* Solid grey background for even rows */
+}
+
+/* Style odd rows for readability */
+#game-table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9; /* Light grey background for odd rows */
+}
+
+/* Hover effect for rows */
+#game-table tbody tr:hover {
+    background-color: #d1d1d1; /* Slightly darker grey on hover */
+}
+
+/* Optional: Style the table borders */
+#game-table, #game-table th, #game-table td {
+    border: 1px solid #ddd; /* Light border around the table, headers, and cells */
+}

@@ -125,23 +125,16 @@
       <table width="100%" cellpadding="2pt" border="1" style="border-collapse: collapse; margin-top: 20px;">
         <!-- Example rows; replace with actual data as needed -->
         <tr>
-          <td style="width: 70%;">
+          <td class="score-background" style="width: 10%; text-align: center;">
+            1.
+          </td>
+          <td style="width: 60%;">
             <button class="w100 flat buttontext" onclick="btnBridge(this);">
               user1/12345
             </button>
           </td>
           <td class="score-background" style="width: 30%; text-align: center;">
             95
-          </td>
-        </tr>
-        <tr>
-          <td style="width: 70%;">
-            <button class="w100 flat buttontext" onclick="btnBridge(this);">
-              user2/67890
-            </button>
-          </td>
-          <td class="score-background" style="width: 30%; text-align: center;">
-            88
           </td>
         </tr>
         <!-- Dynamically in JS add more rows as needed -->
@@ -214,34 +207,32 @@
     </div>
 
 
-    <table id="game-table" border="1" style="border-collapse: collapse; width: 100%; margin-top: 20px;">
-      <thead>
-      <tr>
-        <th>Game ID</th>
-        <th>NumQuestions</th>
-        <th>Points</th>
-      </tr>
-      </thead>
-      <tbody>
-      <!-- Example rows; replace with actual data as needed -->
-      <tr>
-        <td>game1</td>
-        <td>10</td>
-        <td>150</td>
-      </tr>
-      <tr>
-        <td>game2</td>
-        <td>8</td>
-        <td>120</td>
-      </tr>
-      <tr>
-        <td>game3</td>
-        <td>12</td>
-        <td>180</td>
-      </tr>
-      <!-- Add more rows as needed -->
-      </tbody>
-    </table>
+    <div id="game-table" style="display: none;">
+      <table width="100%" cellpadding="2pt" border="1" style="border-collapse: collapse; margin-top: 20px;">
+        <thead>
+        <tr id="title-row">
+          <th style="width: 33%; text-align: center;">Game ID</th>
+          <th style="width: 33%;">Questions</th>
+          <th style="width: 33%; text-align: center;">Points</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Example rows; replace with actual data as needed -->
+        <tr id="data-rows">
+          <td class="score-background" style="width: 33%; text-align: center;">
+            1
+          </td>
+          <td class="score-background" style="width: 33%; text-align: center;">
+            13
+          </td>
+          <td class="score-background" style="width: 33%; text-align: center;">
+            40
+          </td>
+        </tr>
+        <!-- Dynamically add more rows in JS as needed -->
+        </tbody>
+      </table>
+    </div>
 
     <!-- PRABA HTML -->
     <div id='new-question-set-overlay' class='qr-overlay' style="display: none;">
