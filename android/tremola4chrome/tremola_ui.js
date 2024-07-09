@@ -178,13 +178,23 @@ function setScenario(s) {
         document.getElementById('kahoot-buttons').style.display = 'none';
         // Hide user scores table
         document.getElementById('user-scores').style.display = 'none';
+        // Hide user scores table
+        document.getElementById('enter-quiz-button-list-container').style.display = 'none';
+        // Hide user scores table
+        document.getElementById('fill-quiz-button-list-container').style.display = 'none';
+        // Hide list-set gamme table table
+        document.getElementById('game-table').style.display = 'none';
+        // Hide list-set gamme table table
+        document.getElementById('new-question-set-overlay').style.display = 'none';
         if (s == 'kahoot') {
             console.log('Kahoot scenario activated');
             // Any additional initialization logic for Kahoot can go here
             //document.getElementById('lst:kahoot').style.display = 'block';
             document.getElementById('quiz-master-title').style.display = 'block';
             document.getElementById('kahoot-buttons').style.display = 'block';
-            document.getElementById('user-scores').style.display = 'block';
+            //document.getElementById('user-scores').style.display = 'block';
+            //document.getElementById('enter-quiz-button-list-container').style.display = 'block';
+            //document.getElementById('fill-quiz-button-list-container').style.display = 'block';
         }
     }
 }

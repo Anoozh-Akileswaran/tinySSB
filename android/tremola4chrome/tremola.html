@@ -14,6 +14,7 @@
   <script type="text/javascript" charset="UTF-8" src="pako.min.js"></script>
   <script type="text/javascript" charset="UTF-8" src="sketch.js"></script>
   <script type="text/javascript" charset="UTF-8" src="jakob_kahoot_ui.js"></script>
+  <script type="text/javascript" charset="UTF-8" src="Kahoot_ui.js"></script>
 </head>
 <body style="background-image: url('img/splash-as-background.jpg'); background-size: cover; background-color: white; overflow: hidden" onload="backend('ready');">
 <div style="width: 100%; height: 100%; margin: 0px">
@@ -101,17 +102,17 @@
       <table width="100%" cellpadding="2pt">
         <tr>
           <td style="width: 33.33%;">
-            <button id="btn:ranking" class="w100 flat active buttontext" onclick="handleRanking(this);">
+            <button id="btn:ranking" class="w100 flat active buttontext" onclick="jakob_btnBridge(this);">
               Ranking
             </button>
           </td>
           <td style="width: 33.33%;">
-            <button id="btn:create_quiz" class="w100 flat passive buttontext" onclick="btnBridge(this);">
+            <button id="btn:create_quiz" class="w100 flat passive buttontext" onclick="jakob_btnBridge(this);">
               Enter Game
             </button>
           </td>
           <td style="width: 33.33%;">
-            <button id="btn:enter_quiz" class="w100 flat passive buttontext" onclick="btnBridge(this);">
+            <button id="btn:enter_quiz" class="w100 flat passive buttontext" onclick="jakob_btnBridge(this);">
               Create Game
             </button>
           </td>
@@ -120,9 +121,8 @@
     </div>
 
     <!-- New Table for Username/ID and Scores -->
-    <!-- PUT THIS HTML IN THE JAVASCRIPT IF IT DOESN'T WORK ELSE, unfortunatelly it displays in the beginning for some reasons -->
     <div id="user-scores" style="display: none;">
-      <table width="100%" cellpadding="2pt" border="1" style="border-collapse: collapse; margin-top: 20px; display: none;">
+      <table width="100%" cellpadding="2pt" border="1" style="border-collapse: collapse; margin-top: 20px;">
         <!-- Example rows; replace with actual data as needed -->
         <tr>
           <td style="width: 70%;">
@@ -147,8 +147,118 @@
         <!-- Dynamically in JS add more rows as needed -->
       </table>
     </div>
+    <!-- Take it out later???, when only placeholder needed anymore??? -->
 
     <div id="user-scores-container" class="hidden"></div>
+
+    <!-- Buttons for the enter game screen -->
+    <div id="enter-quiz-button-list-container" style="display: none;">
+      <div class="button-list-section">
+        <div class="button-list-title">Player 1</div>
+        <div class="button-list">
+          <button id="btn:game" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Game 1</button>
+        </div>
+      </div>
+
+      <!--
+      <div class="button-list-section">
+        <div class="button-list-title">Title 2</div>
+        <div class="button-list">
+          <button id="btn:2game1" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Button 1</button>
+          <button id="btn:2game2" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Button 2</button>
+        </div>
+      </div>
+      -->
+    </div>
+
+    <!-- Buttons for the choose question screen -->
+    <div id="choose-answer" style="display: none;">
+      <div class="button-list-section">
+        <div class="button-list-title">What is the Answer to Question 1?</div>
+        <div class="button-list">
+          <button id="btn:answer1" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Answer 1</button>
+          <button id="btn:answer2" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Answer 2</button>
+          <button id="btn:answer3" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Answer 3</button>
+          <button id="btn:answer4" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Answer 4</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Buttons for the enter game screen -->
+    <div id="fill-quiz-button-list-container" style="display: none;">
+      <div class="button-list-section">
+        <div class="button-list-title">Game 1</div>
+        <div class="button-list">
+          <button id="btn:question1" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Question 1</button>
+          <button id="btn:question2" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Question 2</button>
+          <button id="btn:question3" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Question 3</button>
+          <button id="btn:Submit" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons for the create game screen -->
+    <div id="create-game-entry" style="display: none;">
+      <div class="button-list-section">
+        <div class="button-list-title">New Game</div>
+        <div class="button-list">
+          <button id="btn:new-question-set" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">New Question Set</button>
+          <button id="btn:list-question-set" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">List Question Set</button>
+        </div>
+      </div>
+    </div>
+
+
+    <table id="game-table" border="1" style="border-collapse: collapse; width: 100%; margin-top: 20px;">
+      <thead>
+      <tr>
+        <th>Game ID</th>
+        <th>NumQuestions</th>
+        <th>Points</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!-- Example rows; replace with actual data as needed -->
+      <tr>
+        <td>game1</td>
+        <td>10</td>
+        <td>150</td>
+      </tr>
+      <tr>
+        <td>game2</td>
+        <td>8</td>
+        <td>120</td>
+      </tr>
+      <tr>
+        <td>game3</td>
+        <td>12</td>
+        <td>180</td>
+      </tr>
+      <!-- Add more rows as needed -->
+      </tbody>
+    </table>
+
+    <!-- PRABA HTML -->
+    <div id='new-question-set-overlay' class='qr-overlay' style="display: none;">
+      <div style="display:flex; justify-content: center;align-items: center; flex-direction: column; gap: 20px">
+        <div style="text-align: center">
+          <b>Create New Questionset</b> <br>
+        </div>
+        <div id="question-set-form">
+          <form id="questionset-form" onsubmit="praba_submitQuestionSet(event)">
+            <div id="questions-container" class="scroll-area">
+              <!-- Questions dynamically added here -->
+            </div>
+            <button id="btn:addQuestion" type="button" onclick="praba_addQuestion()">Add Question</button>
+            <button id="btn:submitQuestion" type="submit">Submit Questionset</button>
+            <button id="btn:cancelQuestionSet" type="button" onclick="praba_btn_new_question_set_cancel()">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+
 
     <!-- New Kahoot Overlay
     <div id='kahoot-overlay' class='qr-overlay'>

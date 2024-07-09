@@ -276,12 +276,44 @@ function btn_list_question_set() {
 }
 
 
-//JAKOB
 
-//handleInitialKahootButton
-/*
-Enter btnBridge listener in html again to get this one working, or replicate here so it works
-*/
+
+//JAKOBs stuff
+
+function handleRanking1() {
+    // Remove an element
+
+    /*
+    var elementToRemove = document.getElementById('user-scores');
+    if (elementToRemove) {
+        elementToRemove.remove();
+    }
+    */
+
+
+    // Show an element
+
+    var elementToShow = document.getElementById('user-scores');
+    if (elementToShow) {
+        elementToShow.classList.remove('hidden');
+    }
+
+    //document.getElementById('user-scores').style.display = 'flex';
+
+}
+
+//handleEnterGame
+function handleEnterGame() {
+
+}
+
+//handle createGame
+function handleCreateGame() {
+
+}
+
+
+
 //added
 function jakob_btnBridge(e) {
     var e = e.id, m = '';
@@ -370,39 +402,3 @@ function jakob_setScenario(s) {
             }
         }
 
-//Handle ranking
-function handleRanking1() {
-    // Remove an element
-
-    /*
-    var elementToRemove = document.getElementById('user-scores');
-    if (elementToRemove) {
-        elementToRemove.remove();
-    }
-    */
-
-
-    // Show an element
-
-    var elementToShow = document.getElementById('user-scores');
-    if (elementToShow) {
-        elementToShow.classList.remove('hidden');
-    }
-
-    //document.getElementById('user-scores').style.display = 'flex';
-
-}
-
-//handleEnterGame
-function handleEnterGame() {
-
-}
-
-//handle createGame
-function handleCreateGame() {
-
-}
-
-
-
-//Migrate from tremola_ui.js
