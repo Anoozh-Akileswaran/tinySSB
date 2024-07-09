@@ -796,5 +796,21 @@ input:checked + .slider:before {
     margin-bottom: 20px;
 }
 
-/* Game Table in 'List set' under create game */
-/* Table styles */
+.points-gathered-container {
+    display: flex;
+    align-items: center;
+    /*padding: 10px;*/
+    box-sizing: border-box;
+    margin-bottom: 20px; /* Adjust the space as needed */
+}
+
+.left-text {
+    font-size: 16px; /* Adjust as needed */
+    font-weight: bold; /* Optional */
+}
+
+.right-text {
+    font-size: 16px; /* Adjust as needed */
+    font-weight: bold; /* Optional */
+    margin-left: 30px; /* Adjust the space between as needed */
+}
