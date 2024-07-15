@@ -250,7 +250,40 @@ function virtualBackend(event) {
                 }
         frontEnd.postMessage(['b2f', 'new_event', e], '*')
         broadcast(e);
-    }
+    }if (cmd[0] == 'kahoot'){
+        console.log('kahoot', cmd[1],cmd[2],cmd[3], cmd[4]);
+        cmd[0] = 'KAH';
+            /*
+            if(SendID!=null){
+             SendID = atob(cmdStr[1])
+             SendID = SendID.split(",").map(atob)
+            }
+            */
+
+            var args = cmd[4];
+              if (args != "null") {
+                        args = atob(cmd[4]);
+                        cmd[4] = args;
+                    }
+            /*
+            if (args != "null") {
+                args = atob(cmdStr[3])
+                args = args.split(",").map(atob)
+            }
+            */
+            myseqno += 1;
+           var e = { 'header': {
+         	            'tst': Date.now(),
+         	            'ref': Math.floor(1000000*Math.random()),
+         	            'fid': IDs[myname],
+         	            'seq': myseqno},
+                           'public': cmd
+                         }
+            frontEnd.postMessage(['b2f', 'new_event', e], '*')
+            broadcast(e);
+
+         }
+
     if (cmd[0] == 'iam') {
         console.log('iam', atob(cmd[1]));
         cmd[0] = 'IAM';

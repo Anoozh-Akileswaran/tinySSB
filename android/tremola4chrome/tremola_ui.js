@@ -173,6 +173,8 @@ function setScenario(s) {
         }
 
         // Hide kahoot-create-quiz-overlay when switching scenarios
+        document.getElementById('create-game-entry').style.display = 'none';
+
         document.getElementById('quiz-master-title').style.display = 'none';
         // Hide bottom buttons
         document.getElementById('kahoot-buttons').style.display = 'none';
@@ -269,6 +271,7 @@ function closeOverlay() {
     document.getElementById('div:modal_img').style.display = 'none';
     document.getElementById('connection-overlay').style.display = 'none';
     document.getElementById('import-id-overlay').style.display = 'none';
+
 
     // kanban overlays
     document.getElementById('div:menu_history').style.display = 'none';

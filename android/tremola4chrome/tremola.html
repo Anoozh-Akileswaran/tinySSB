@@ -13,8 +13,19 @@
   <script type="text/javascript" charset="UTF-8" src="board_ui.js"></script>
   <script type="text/javascript" charset="UTF-8" src="pako.min.js"></script>
   <script type="text/javascript" charset="UTF-8" src="sketch.js"></script>
-  <script type="text/javascript" charset="UTF-8" src="jakob_kahoot_ui.js"></script>
   <script type="text/javascript" charset="UTF-8" src="Kahoot_ui.js"></script>
+  <script type="text/javascript" charset="UTF-8" src="Kahoot.js"></script>
+  <script type="text/javascript" charset="UTF-8" src="jakob_kahoot_ui.js"></script>
+  <style>
+    .scroll-container {
+        height: 20%;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-y: auto; /* Enable vertical scrolling */
+        overflow-x: hidden; /* Hide horizontal scrolling */
+    }
+  </style>
+
 </head>
 <body style="background-image: url('img/splash-as-background.jpg'); background-size: cover; background-color: white; overflow: hidden" onload="backend('ready');">
 <div style="width: 100%; height: 100%; margin: 0px">
@@ -96,7 +107,9 @@
 
     <div id="quiz-master-title" class="title-container">
       Welcome to Quiz Master!
+      <button id="infoButton" class="buttonInfo"></button>
     </div>
+
 
     <div id="kahoot-buttons">
       <table width="100%" cellpadding="2pt">
@@ -121,8 +134,24 @@
     </div>
 
     <!-- New Table for Username/ID and Scores -->
+    <div id="infoModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <h2>About the Game </h2>
+        <p>Authors: Anoozh, Prabavan and Jakob</p>
+        <p>This Game is made for fun and educational purposes. We ask you to create a Quiz Set, which is solvable
+        and reasonable. If you think a Question Set is not reasonably solvable, then please press the
+          "dislike"-button </p>
+        <h2>How does it work?</h2>
+        <p>"Ranking": Look at the current Rank-List</p>
+        <p>"Enter Game": If you want to answer some questions, just press on an open
+        Game.</p>
+        <p>"Create Game: " If you want to create you own Game, press on "New Question Set" or if you
+        want to look at the Question Sets, that you created, press on "List Question Set".</p>
+
+      </div>
+    </div>
     <div id="user-scores" style="display: none;">
-      <table width="100%" cellpadding="2pt" border="1" style="border-collapse: collapse; margin-top: 20px;">
+      <table id="rankingTable" width="100%" cellpadding="2pt" border="1" style="border-collapse: collapse; margin-top: 20px;">
         <!-- Example rows; replace with actual data as needed -->
         <tr>
           <td class="score-background" style="width: 10%; text-align: center;">
@@ -145,11 +174,12 @@
     <div id="user-scores-container" class="hidden"></div>
 
     <!-- Buttons for the enter game screen -->
-    <div id="enter-quiz-button-list-container" style="display: none;">
-      <div class="button-list-section">
+    <div id="enter-quiz-button-list-container" class="QuestionSetContainerCSS" style="display: none;">
+      <div id="QuestionSetContainer">
         <div class="button-list-title">Player 1</div>
         <div class="button-list">
-          <button id="btn:game" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Game 1</button>
+          <button id="btn:game" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Game 1 <p>Score: 20</p></button>
+
         </div>
       </div>
 
@@ -167,34 +197,35 @@
     <!-- Buttons for the choose question screen -->
     <div id="choose-answer" style="display: none;">
       <div class="button-list-section">
-        <div class="button-list-title">What is the Answer to Question 1?</div>
+        <div id="QuestionField" class="button-list-title">What is the Answer to Question 1?</div>
         <div class="button-list">
-          <button id="btn:answer1" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Answer 1</button>
-          <button id="btn:answer2" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Answer 2</button>
-          <button id="btn:answer3" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Answer 3</button>
-          <button id="btn:answer4" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Answer 4</button>
+          <button id="btn:answer1" class="w100 flat buttontext" onclick="storeAnswer(this);">Answer 1</button>
+          <button id="btn:answer2" class="w100 flat buttontext" onclick="storeAnswer(this);">Answer 2</button>
+          <button id="btn:answer3" class="w100 flat buttontext" onclick="storeAnswer(this);">Answer 3</button>
+          <button id="btn:answer4" class="w100 flat buttontext" onclick="storeAnswer(this);">Answer 4</button>
         </div>
       </div>
     </div>
 
 
     <!-- Buttons for the enter game screen -->
-    <div id="fill-quiz-button-list-container" style="display: none;">
-      <div class="button-list-section">
-        <div class="button-list-title">Game 1</div>
-        <div class="button-list">
-          <button id="btn:question1" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Question 1</button>
+
+      <div id="fill-quiz-button-list-container" style="display: none;">
+        <div class="button-list-section">
+          <div id="QuestionList" class="QuestionSetContainerCSS">
+            <button id="btn:question1" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Question 1</button>
+          </div>
           <button id="btn:Submit" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Submit</button>
         </div>
       </div>
-    </div>
 
     <!-- Buttons for the create game screen -->
+
     <div id="create-game-entry" style="display: none;">
       <div class="button-list-section">
         <div class="points-gathered-container">
-          <div class="left-text">Username1</div>
-          <div class="right-text">Points gathered: 55</div>
+          <div id="MyUsername" class="left-text"></div>
+          <div id="MyPoints" class="right-text"></div>
         </div>
         <div class="button-list-title">New Game</div>
         <div class="button-list">
@@ -205,16 +236,18 @@
     </div>
 
 
+
     <div id="game-table" style="display: none;">
       <table width="100%" cellpadding="2pt" border="1" style="border-collapse: collapse; margin-top: 20px;">
         <thead>
         <tr id="title-row">
-          <th style="width: 33%; text-align: center;">Game ID</th>
-          <th style="width: 33%;">Questions</th>
-          <th style="width: 33%; text-align: center;">Points</th>
+          <th style="width: 25%; text-align: center;">Game ID</th>
+          <th style="width: 25%; text-align: center;">Number of Questions</th>
+          <th style="width: 25%; text-align: center;">Points</th>
+          <th style="width: 25%; text-align: center;">Dislikes</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="MyList">
         <!-- Example rows; replace with actual data as needed -->
         <tr id="data-rows">
           <td class="score-background" style="width: 33%; text-align: center;">
@@ -776,5 +809,6 @@
 
 
 </div>
+
 </body>
 </html>

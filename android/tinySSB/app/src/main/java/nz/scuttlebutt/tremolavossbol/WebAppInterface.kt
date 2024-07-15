@@ -229,12 +229,13 @@ class WebAppInterface(val act: MainActivity, val webView: WebView) {
                 kanban(bid, prev , op, argsList)
             }
 
-            "Kahoot" -> {
+            "kahoot" -> {
 
                 val SendID: String? = if (args[1] != "null") args[1] else null
                 val op: String = args[2]
-                val argsList:List<String>? = if(args[3] != "null") Base64.decode(args[3], Base64.NO_WRAP).decodeToString().split(",").map{ Base64.decode(it, Base64.NO_WRAP).decodeToString()} else null
-                Kahoot(SendID, op, argsList)
+                val ignore: String = args[3]
+                val args:String? = args[4]
+                Kahoot(SendID, op, args, ignore)
 
 
             }
@@ -364,28 +365,35 @@ class WebAppInterface(val act: MainActivity, val webView: WebView) {
 
 
     */
-    fun Kahoot(SendID:String?, operation:String, args: List<String>?){
+    fun Kahoot(SendID:String?, operation:String, args:String?, ignore:String?){
         val lst = Bipf.mkList()
-        Bipf.list_append(lst, TINYSSB_APP_KAHOOT)
-
+        Bipf.list_append(lst, Bipf.mkString("KAH"))
         if(SendID != null) {
-            Bipf.list_append(lst, Bipf.mkBytes(Base64.decode(SendID, Base64.NO_WRAP)))
+            Bipf.list_append(lst, Bipf.mkString(SendID))
         } else {
             Bipf.list_append(lst, Bipf.mkString("null"))  // TODO: Change to Bipf.mkNone(), but would be incompatible with the old format
         }
 
         Bipf.list_append(lst, Bipf.mkString(operation))
 
-        if (args != null) {
-            for (arg in args) {
-                if (Regex("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?\$").matches(arg)) {
-                    Bipf.list_append(lst, Bipf.mkBytes(Base64.decode(arg, Base64.NO_WRAP)))
-                } else { // arg is not a b64 string
-                    Bipf.list_append(lst, Bipf.mkString(arg))
-                }
+        if(ignore != null) {
 
-            }
+                Bipf.list_append(lst, Bipf.mkString(ignore))
+
+
+        } else {
+            Bipf.list_append(lst, Bipf.mkString("null"))  // TODO: Change to Bipf.mkNone(), but would be incompatible with the old format
         }
+
+
+        if (args != null) {
+            Bipf.list_append(lst, Bipf.mkString(args))
+
+        } else { // arg is not a b64 string
+                    Log.d("KAHOOT-INFO", "null-value")
+                    Bipf.list_append(lst, Bipf.mkString("null"))
+        }
+
 
         val body = Bipf.encode(lst)
 

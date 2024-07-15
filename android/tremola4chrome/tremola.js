@@ -881,15 +881,23 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
     }else if(cmdStr[0] == 'kahoot'){
 
        var SendID = cmdStr[1]
+       /*
        if(SendID!=null){
         SendID = atob(cmdStr[1])
         SendID = SendID.split(",").map(atob)
        }
-       var args = cmdStr[3]
-           if (args != "null") {
-               args = atob(cmdStr[3])
-               args = args.split(",").map(atob)
-           }
+       */
+       var ignore = cmdStr[3]
+       var args = cmdStr[4]
+         if (args != "null") {
+                   args = atob(cmdStr[4])
+         }
+       /*
+       if (args != "null") {
+           args = atob(cmdStr[3])
+           args = args.split(",").map(atob)
+       }
+       */
        var e = {
             'header': {
                 'tst': Date.now(),
@@ -897,7 +905,7 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
                 'fid': myId
             },
             'confid': {},
-            'public': ["KAH", SendID, cmdStr[2]].concat(args)
+            'public': ["KAH", SendID, cmdStr[2], ignore].concat(args)
         }
         console.log('KAH e=', JSON.stringify(e))
         b2f_new_in_order_event(e)
@@ -919,6 +927,7 @@ function resetTremola() { // wipes browser-side content
         "board": {},
         "player": {}
     }
+
     var n = recps2nm([myId])
 
     //TODO reactivate when encrypted chats are implemented
@@ -1234,7 +1243,7 @@ function b2f_new_event(e) { // incoming SSB log event: we get map with three ent
             b2f_new_in_order_event(e)
 
         }else if (e.public[0] == "KAH"){ // Kahoot board event
-
+           console.log("I am in b2f_new_in order_event");
            b2f_new_in_order_event(e)
         }else if (e.public[0] == "IAM") {
             var contact = tremola.contacts[e.header.fid]
@@ -1307,6 +1316,7 @@ function b2f_reset(id) {
     console.log('reset');
     myId = id;
     resetTremola();
+
 }
 // << END INSERT VIRTBACKEND
 

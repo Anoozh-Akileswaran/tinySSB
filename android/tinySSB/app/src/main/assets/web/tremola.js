@@ -846,7 +846,40 @@ function backend(cmdStr) { // send this to Kotlin (or simulate in case of browse
         // console.log('e=', JSON.stringify(e))
         b2f_new_event(e)
         console.log(e)
-    } else {
+    }else if(cmdStr[0] == 'kahoot'){
+        var SendID = cmdStr[1]
+       /*
+       if(SendID!=null){
+        SendID = atob(cmdStr[1])
+        SendID = SendID.split(",").map(atob)
+       }
+       */
+       var ignore = cmdStr[3]
+       var args = cmdStr[4]
+         if (args != "null") {
+                   args = atob(cmdStr[4])
+         }
+       /*
+       if (args != "null") {
+           args = atob(cmdStr[3])
+           args = args.split(",").map(atob)
+       }
+       */
+       var e = {
+            'header': {
+                'tst': Date.now(),
+                'ref': Math.floor(1000000 * Math.random()),
+                'fid': myId
+            },
+            'confid': {},
+            'public': ["KAH", SendID, cmdStr[2], ignore].concat(args)
+        }
+
+
+
+       b2f_new_event(e)
+       console.log(e)
+    }else {
         // console.log('backend', JSON.stringify(cmdStr))
     }
 }
@@ -860,7 +893,7 @@ function resetTremola() { // wipes browser-side content
         "settings": get_default_settings(),
         "board": {},
         // Important: for Kahoot
-        //"player": {}
+        "player": {}
     }
     var n = recps2nm([myId])
 
@@ -1054,6 +1087,10 @@ function b2f_new_in_order_event(e) {
         case "KAN":
             console.log("New kanban event")
             kanban_new_event(e)
+            break
+        case "KAH":
+            console.log("New Kahoot event")
+            Kahoot_new_event(e)
             break
         default:
             return

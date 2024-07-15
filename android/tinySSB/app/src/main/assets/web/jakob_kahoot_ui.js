@@ -191,7 +191,9 @@ function jakob_setScenario(s, arg1, arg2 ) {
                 document.getElementById('game-table').style.display = 'none';
                 // Hide addQuestionButton
                 document.getElementById('new-question-set-overlay').style.display = 'none';
+                //Remove the button
                 document.getElementById('plus').style.display = 'none';
+
                 if (s == 'kahoot') {
                     console.log('Kahoot scenario activated');
                     // Any additional initialization logic for Kahoot can go here
@@ -205,17 +207,20 @@ function jakob_setScenario(s, arg1, arg2 ) {
                                          }
 
                     }
+
                     document.getElementById('quiz-master-title').style.display = 'block';
                     document.getElementById('kahoot-buttons').style.display = 'block';
                 }
                 if (s == 'ranking') {
                     showRanking();
+
                     document.getElementById('quiz-master-title').style.display = 'block';
                     document.getElementById('kahoot-buttons').style.display = 'block';
                     document.getElementById('user-scores').style.display = 'block';
                 }
                 if (s == 'enter_quiz') { //THIS IS CREATE!!
                     getUserPersonal();
+
                     document.getElementById('quiz-master-title').style.display = 'block';
                     document.getElementById('kahoot-buttons').style.display = 'block';
                     document.getElementById('create-game-entry').style.display = 'block';
@@ -224,6 +229,7 @@ function jakob_setScenario(s, arg1, arg2 ) {
                 }
                 if (s == 'create_quiz') { //THIS IS ENTER!!
                      enter_game()
+
                      document.getElementById('quiz-master-title').style.display = 'block';
                      document.getElementById('kahoot-buttons').style.display = 'block';
                      document.getElementById('enter-quiz-button-list-container').style.display = 'block';
@@ -306,7 +312,6 @@ List all the QuestionSets off all the player
 function enter_game(){
    solved = [false, false, false, false, false, false, false, false];
    document.getElementById('QuestionSetContainer').innerHTML = '';
-
    var cl = document.getElementById('QuestionSetContainer');
    for(let m in tremola.player){
         console.log("Player ID: " + m);
@@ -314,7 +319,7 @@ function enter_game(){
         if(myId != player.SendID){
             var playerItem = document.createElement('div');
             var playerName = document.createElement('div');
-            playerName.innerHTML = "<div class='button-list-title'>"+player.SendID+"</div>";
+            playerName.innerHTML = "<div class='button-list-title'>"+player.SendID.substring(0, 15)+"</div>";
              var questionSetItem = document.createElement('div');
             questionSetItem.classList.add("button-container");
 
@@ -330,8 +335,7 @@ function enter_game(){
                                 onclick='jakob_btnBridge(this, "empty", ${player.QuestionSets[i].QuestionSetID});'>
                                   QuestionSetID: ${player.QuestionSets[i].QuestionSetID}
                                   <p> Max Points: ${player.QuestionSets[i].TotalScore}</p>
-                                  <p>Status: ${player.QuestionSets[i].status}</p>
-                                  <p>Number of dislikes: ${player.QuestionSets[i].dislike}</p>
+                                  <p>Status: ${player.QuestionSets[i].status}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of dislikes: ${player.QuestionSets[i].dislike}</p>
                             </button>`;
 
                 }else {
@@ -343,8 +347,7 @@ function enter_game(){
                                 onclick='doNothing();'>
                                 ${player.QuestionSets[i].QuestionSetID}
                                 <p> YOU RECEIVED: ${player.QuestionSets[i].TotalScore}</p>
-                                <p>Status: ${player.QuestionSets[i].status}</p>
-                                <p>Number of dislikes: ${player.QuestionSets[i].dislike}</p>
+                                <p>Status: ${player.QuestionSets[i].status}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of dislikes: ${player.QuestionSets[i].dislike}</p>
                             </button>  <button id='btn:game' class='dislike'
                                                                   onclick='disliked(${player.QuestionSets[i].QuestionSetID});'>
                                                               </button>`;
@@ -356,8 +359,7 @@ function enter_game(){
                                         onclick='doNothing();'>
                                         ${player.QuestionSets[i].QuestionSetID}
                                         <p> YOU RECEIVED: ${player.QuestionSets[i].TotalScore}</p>
-                                        <p>Status: ${player.QuestionSets[i].status}</p>
-                                        <p>Number of dislikes: ${player.QuestionSets[i].dislike}</p>
+                                        <p>Status: ${player.QuestionSets[i].status}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number of dislikes: ${player.QuestionSets[i].dislike}</p>
                                     </button>`;
 
 
@@ -371,19 +373,14 @@ function enter_game(){
             }
             playerItem.appendChild(playerName);
             playerItem.appendChild(questionSetItem);
-       }
+        }
          if(tremola.player.length!=0&&(playerItem instanceof Node)){
 
                cl.appendChild(playerItem);
            }
 
     }
-      // Ensure container has the correct overflow properties
-     if (document.getElementById('QuestionSetContainer').scrollHeight > document.getElementById('QuestionSetContainer').clientHeight) {
-         document.getElementById('QuestionSetContainer').style.overflowY = 'scroll';
-     } else {
-         document.getElementById('QuestionSetContainer').style.overflowY = 'hidden';
-     }
+
 
 
 
@@ -591,7 +588,7 @@ function showRanking(){
         row.innerHTML = `
             <td class="score-background" style="width: 10%; text-align: center;">${index + 1}</td>
             <td style="width: 60%;">
-                <button class="w100 flat buttontext" onclick="btnBridge(this);">${rank.name}</button>
+                <button class="w100 flat buttontext" onclick="btnBridge(this);">${rank.name.substring(0, 15)}</button>
             </td>
             <td class="score-background" style="width: 30%; text-align: center;">${rank.score}</td>
         `;
@@ -745,9 +742,9 @@ function questionSet_created(questionSet){
 
 function praba_btn_new_question_set_cancel() {
     document.getElementById('new-question-set-overlay').style.display = 'none';
+
     document.getElementById('quiz-master-title').style.display = 'block';
     document.getElementById('kahoot-buttons').style.display = 'block';
     document.getElementById('create-game-entry').style.display = 'block';
-    document.getElementById('questions-container').innerHTML = '';
-
+     document.getElementById('questions-container').innerHTML = '';
 }

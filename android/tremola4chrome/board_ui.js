@@ -102,7 +102,7 @@ function load_board_list() {
             badgeId = bid + "-badge_board"
             badge = "<div id='" + badgeId + "' style='display: none; position: absolute; right: 0.5em; bottom: 0.9em; text-align: center; border-radius: 1em; height: 2em; width: 2em; background: var(--red); color: white; font-size: small; line-height:2em;'>&gt;9</div>";
             row += badge + "</button>";
-            row += ""
+            row += "";
             item.innerHTML = row;
             cl.appendChild(item);
             ui_set_board_list_badge(bid)
