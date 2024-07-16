@@ -204,15 +204,16 @@
           <button id="btn:answer3" class="w100 flat buttontext" onclick="storeAnswer(this);">Answer 3</button>
           <button id="btn:answer4" class="w100 flat buttontext" onclick="storeAnswer(this);">Answer 4</button>
         </div>
+        <button id="SubmitQuestion" style="display: none;"  class="w100_flat_buttontext3" onclick="storeAnswer(this, 'true');">Submit</button>
       </div>
     </div>
 
 
     <!-- Buttons for the enter game screen -->
 
-    <div id="fill-quiz-button-list-container" style="display: none;">
+    <div id="fill-quiz-button-list-container" class="QuestionSetContainerCSS2" style="display: none;">
       <div class="button-list-section">
-        <div id="QuestionList" class="QuestionSetContainerCSS">
+        <div id="QuestionList">
           <button id="btn:question1" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Question 1</button>
         </div>
         <button id="btn:Submit" class="w100 flat buttontext" onclick="jakob_btnBridge(this);">Submit</button>
@@ -242,7 +243,7 @@
         <thead>
         <tr id="title-row">
           <th style="width: 25%; text-align: center;">Game ID</th>
-          <th style="width: 25%; text-align: center;">Questions</th>
+          <th style="width: 25%; text-align: center;">Number of Questions</th>
           <th style="width: 25%; text-align: center;">Points</th>
           <th style="width: 25%; text-align: center;">Dislikes</th>
         </tr>

@@ -1,5 +1,6 @@
 //jakob_kahoot_ui.js
-
+var answerMarks = [];
+var initiate = false;
 document.addEventListener('DOMContentLoaded', (event) => {
     const infoButton = document.getElementById('infoButton');
     const infoModal = document.getElementById('infoModal');
@@ -66,7 +67,7 @@ function handleCreateGame() {
 
 
 //added
-function jakob_btnBridge(e, arg1, arg2) {
+function jakob_btnBridge(e, arg1, arg2, arg3) {
 
 
     let temp = e.toString();
@@ -74,11 +75,11 @@ function jakob_btnBridge(e, arg1, arg2) {
     console.log("Input: "+ (e.substring(4)) + " --"+arg1+" --"+ arg2);
     if (['btn:chats', 'btn:posts', 'btn:contacts', 'btn:connex', 'btn:kanban', 'btn:kahoot', 'btn:ranking', 'btn:enter_quiz', 'btn:create_quiz', 'btn:game',
     'btn:question1', 'btn:new-question-set', 'btn:list-question-set', 'btn:addQuestion', 'btn:Submit'].indexOf(e) >= 0) {
-        jakob_setScenario(e.substring(4), arg1, arg2);
+        jakob_setScenario(e.substring(4), arg1, arg2, arg3);
     }
 }
 
-function jakob_setScenario(s, arg1, arg2 ) {
+function jakob_setScenario(s, arg1, arg2, arg3 ) {
     // console.log('setScenario ' + s)
     closeOverlay();
     var lst;
@@ -237,7 +238,7 @@ function jakob_setScenario(s, arg1, arg2 ) {
                     document.getElementById('fill-quiz-button-list-container').style.display = 'block';
                 }
                 if (s == 'question1') {
-                    load_question(arg1,arg2)
+                    load_question(arg1,arg2, arg3)
                     document.getElementById('quiz-master-title').style.display = 'block';
                     document.getElementById('kahoot-buttons').style.display = 'block';
                     document.getElementById('choose-answer').style.display = 'block';
@@ -305,8 +306,9 @@ List all the QuestionSets off all the player
 
 function enter_game(){
    solved = [false, false, false, false, false, false, false, false];
+   answerMarks = [false, false, false, false];
    document.getElementById('QuestionSetContainer').innerHTML = '';
-
+   initializeAnswerList();
    var cl = document.getElementById('QuestionSetContainer');
    for(let m in tremola.player){
         console.log("Player ID: " + m);
@@ -314,7 +316,7 @@ function enter_game(){
         if(myId != player.SendID){
             var playerItem = document.createElement('div');
             var playerName = document.createElement('div');
-            playerName.innerHTML = "<div class='button-list-title'>"+player.SendID+"</div>";
+            playerName.innerHTML = "<div class='button-list-title'>"+player.SendID.substring(0, 15)+"</div>";
              var questionSetItem = document.createElement('div');
             questionSetItem.classList.add("button-container");
 
@@ -419,9 +421,11 @@ Load the pressed the QuestionSet, so therefore load the Questions
 
 function load_questionSet(questionSetID){
     current_QuestionSet = questionSetID;
+    answerMarks = [false, false, false, false];
     console.log("Current_QuestionSetID: " + current_QuestionSet );
     var target;
-    initializeAnswerList();
+
+
     for(let m in tremola.player){
         var player = tremola.player[m];
         for(let i = 0; i<player.QuestionSets.length; ++i){
@@ -468,9 +472,23 @@ function load_questionSet(questionSetID){
 Load the pressed Question, there Answers and the Question-phrased
 */
 
-function load_question(qID, questionSetID){
+function load_question(qID, questionSetID, answerMark){
     current_Question = qID;
+    console.log("CURRENT QUESTION: "+ current_Question);
+
     var target;
+    if(Number.isInteger(answerMark)){
+        if(answerMarks[parseInt(answerMark)]==true){
+            answerMarks[parseInt(answerMark)] = false;
+
+        }else{
+            answerMarks[parseInt(answerMark)] = true;
+
+        }
+    }else{
+        current_answers[current_Question-1] = [0,0,0,0];
+
+    }
 
     for(let m in tremola.player){
         var player = tremola.player[m];
@@ -492,24 +510,92 @@ function load_question(qID, questionSetID){
         }
 
     }
+    if(target.type == "SCQ"){
+        document.getElementById('QuestionField').textContent  = target.Question + "  (SCQ)";
+        document.getElementById('btn:answer1').textContent  = target.Answers[0];
+        document.getElementById('btn:answer2').textContent  = target.Answers[1];
+        document.getElementById('btn:answer3').textContent  = target.Answers[2];
+        document.getElementById('btn:answer4').textContent  = target.Answers[3];
+        document.getElementById('SubmitQuestion').style.display = "none";
+    }else{
+        document.getElementById('QuestionField').textContent  = target.Question + "  (MCQ)";
+        if(answerMarks[0]==true){
+            document.getElementById('btn:answer1').textContent  = target.Answers[0] + " (marked)";
+        }else{
+            document.getElementById('btn:answer1').textContent  = target.Answers[0];
+        }
 
-    document.getElementById('QuestionField').textContent  = target.Question;
-    document.getElementById('btn:answer1').textContent  = target.Answers[0];
-    document.getElementById('btn:answer2').textContent  = target.Answers[1];
-    document.getElementById('btn:answer3').textContent  = target.Answers[2];
-    document.getElementById('btn:answer4').textContent  = target.Answers[3];
+         if(answerMarks[1]==true){
+                document.getElementById('btn:answer2').textContent  = target.Answers[1] + " (marked)";
+         }else{
+                document.getElementById('btn:answer2').textContent  = target.Answers[1];
+         }
+
+          if(answerMarks[2]==true){
+                 document.getElementById('btn:answer3').textContent  = target.Answers[2] + " (marked)";
+          }else{
+                 document.getElementById('btn:answer3').textContent  = target.Answers[2];
+          }
+
+         if(answerMarks[3]==true){
+               document.getElementById('btn:answer4').textContent  = target.Answers[3] + " (marked)";
+        }else{
+               document.getElementById('btn:answer4').textContent  = target.Answers[3];
+        }
+
+        document.getElementById('SubmitQuestion').style.display = "block";
+
+    }
+
+
 
 }
 
 /*
 Store the Answer from AnswerFiled --> in current_Answer-Array
 */
-function storeAnswer(AnswerField){
-    current_answers[current_Question-1] = document.getElementById(AnswerField.id).innerText;
-    //remove Questionwindow
-    console.log("Solution saved: "+current_answers[current_Question-1] );
-    solved[current_Question-1] = true
-    jakob_setScenario("game","empty", current_QuestionSet);
+function storeAnswer(AnswerField, submitConfirmation){
+    for(let m in tremola.player){
+        var player = tremola.player[m];
+        console.log("PlayerID: "+ tremola.player[m].SendID);
+        for(let i = 0; i< player.QuestionSets.length; ++i){
+            if(player.QuestionSets[i].QuestionSetID == current_QuestionSet ){
+                for(let m = 0; m< player.QuestionSets[i].Questions.length; ++m){
+                    console.log("player.QuestionSets[i]: "+ player.QuestionSets[i]);
+                    if(player.QuestionSets[i].Questions[m].qID == current_Question){
+                        target = player.QuestionSets[i].Questions[m];
+                        console.log("target-name: "+ target);
+                    }
+
+                }
+
+            }
+
+
+        }
+
+    }
+    if(submitConfirmation != "true"){
+        if(target.type == "SCQ"){
+               current_answers[current_Question-1][0] = parseInt(AnswerField.id.substring(10));
+                console.log("Solution saved: "+current_answers[current_Question-1] );
+                solved[current_Question-1] = true
+                jakob_setScenario("game","empty", current_QuestionSet);
+        }else{
+            console.log("AnswerField: "+ parseInt(AnswerField.id.substring(10)));
+            console.log("Current Question: "+current_Question-1);
+            current_answers[current_Question-1][parseInt(AnswerField.id.substring(10))-1] = parseInt(AnswerField.id.substring(10));
+            jakob_setScenario("question1", current_Question, current_QuestionSet, parseInt(AnswerField.id.substring(10))-1);
+        }
+
+
+    }else{
+        console.log("Submit confirmation: "+ submitConfirmation )
+        solved[current_Question-1] = true
+        jakob_setScenario("game","empty", current_QuestionSet);
+        answerMarks = [false, false, false, false];
+
+    }
 
 }
 
@@ -536,12 +622,42 @@ function submitAnswerQuestions(current_QuestionSet){
     console.log("current Soution: "+ solution);
     console.log("current Answer: "+ current_answers);
     var pointsCollected = 0;
-
+    let correct_answers = 0;
     for(let i = 0; i<target.numb_Questions; ++i){
-        if(solution[i] == current_answers[i]){
-            pointsCollected += target.Questions[i].points;
-            console.log("PointsCollected: "+ pointsCollected);
-        }
+       if(target.Questions[i].type == "SCQ"){
+            if(solution[i] == current_answers[i][0]){
+                pointsCollected += target.Questions[i].points;
+                console.log("PointsCollected: "+ pointsCollected);
+            }
+       }else{
+            if(current_answers[i].length>0){
+                console.log("Length of answers: "+ current_answers[i].length)
+                let sol = solution[i].slice().sort();
+                let cur_ans = current_answers[i].slice().sort();
+                console.log("IAM in in 634: "+ cur_ans)
+                correct_answers = 0;
+                for(let k = 0; k<sol.length; ++k){
+                    for(let s = 0; s<cur_ans.length; ++s){
+                        if(sol[k]==cur_ans[s]){
+
+                            ++correct_answers;
+                            console.log("correct: "+ correct_answers)
+                            break;
+
+                        }
+
+                    }
+
+
+                }
+                pointsCollected+= Math.ceil((correct_answers/sol.length)*target.Questions[i].points);
+                console.log("Partial points: " + pointsCollected);
+
+            }
+
+
+       }
+
     }
     console.log("PointsCollected: "+ pointsCollected);
     new_score_update(pointsCollected+tremola.player[myId].playerScore);
@@ -560,6 +676,7 @@ function submitAnswerQuestions(current_QuestionSet){
 
     }
     solved = [false, false, false, false, false, false, false, false];
+    //initializeAnswerList()
 }
 
 
@@ -567,9 +684,27 @@ function submitAnswerQuestions(current_QuestionSet){
 Initialize the the Answer-array.
 */
 function initializeAnswerList(){
-    for(let i = 0; i<current_QuestionSet.numb_Questions; ++i){
-        current_answers.push("null");
+     let target;
+      for(let m in tremola.player){
+            var player = tremola.player[m];
+            console.log("PlayerID: "+ tremola.player[m].SendID);
+            for(let i = 0; i< player.QuestionSets.length; ++i){
+                if(player.QuestionSets[i].QuestionSetID == current_QuestionSet ){
+                    target = player.QuestionSets[i];
+
+                }
+
+
+            }
+
+        }
+    current_answers = [];
+    for(let i = 0; i<8; ++i){
+        current_answers.push([0, 0, 0 , 0]);
+
     }
+    console.log("Current answer: " +current_answers)
+    answerMarks = [false, false, false, false];
 
 
 }
@@ -591,7 +726,7 @@ function showRanking(){
         row.innerHTML = `
             <td class="score-background" style="width: 10%; text-align: center;">${index + 1}</td>
             <td style="width: 60%;">
-                <button class="w100 flat buttontext" onclick="btnBridge(this);">${rank.name}</button>
+                <button class="w100 flat buttontext" onclick="btnBridge(this);">${rank.name.substring(0, 15)}</button>
             </td>
             <td class="score-background" style="width: 30%; text-align: center;">${rank.score}</td>
         `;
@@ -635,7 +770,7 @@ function praba_addQuestion() {
 
     questionDiv.innerHTML = questionHTML;
     questionsContainer.appendChild(questionDiv);
-
+/*
     // Add event listeners to checkboxes to ensure only one can be checked
     const checkboxes = questionDiv.querySelectorAll('.correct-checkbox');
     checkboxes.forEach((checkbox) => {
@@ -649,6 +784,7 @@ function praba_addQuestion() {
             }
         });
     });
+    */
 
 
 
@@ -676,6 +812,7 @@ function praba_submitQuestionSet(event) {
         var questions = [];
         let totalPoints = 0;
         let solution = [];
+        let subSolution = [];
         let numb_Questions = 0;
         let new_QuestionSet_created = {
             QuestionSetID: 0,
@@ -687,13 +824,17 @@ function praba_submitQuestionSet(event) {
             dislike: 0
         };
         for (let i = 0; i < 8; i++) {
+            subSolution = [];
+            let n = 0;
             if (!formData.has(`question${i}`)) break;
             numb_Questions+=1;
             const question = {
                            qID: i+1,
                            Question: formData.get(`question${i}`),
                            points: parseInt(formData.get(`question${i}-points`), 10),
-                           Answers: []
+                           Answers: [],
+                           type: "none"
+
             };
 
             totalPoints+=parseInt(formData.get(`question${i}-points`), 10);
@@ -701,9 +842,17 @@ function praba_submitQuestionSet(event) {
                 if (!formData.has(`question${i}-answer${j}`)) break;
                 question.Answers.push(formData.get(`question${i}-answer${j}`));
                  if( formData.get(`question${i}-correct${j}`) === 'on'){
-                        solution.push(formData.get(`question${i}-answer${j}`));
+                        ++n;
+                        subSolution.push(j+1);
 
                  }
+            }
+            solution.push(subSolution);
+            if(n>1){
+                question.type = "MCQ";
+            }else{
+                question.type = "SCQ";
+
             }
 
             questions.push(question);
