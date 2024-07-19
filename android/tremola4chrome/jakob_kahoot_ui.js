@@ -202,7 +202,8 @@ function jakob_setScenario(s, arg1, arg2, arg3 ) {
                                                    SendID: myId,
                                                    QuestionSets: [],
                                                    playerScore: 0,
-                                                   ignore: "true"
+                                                   ignore: "true",
+                                                   block_dislike: []
                                          }
 
                     }
@@ -338,8 +339,8 @@ function enter_game(){
 
                 }else {
                     console.log(player.QuestionSets[i].QuestionSetID);
-                    if(!block_dislike.includes(parseInt(player.QuestionSets[i].QuestionSetID))){
-                        console.log("NOT IN THE BLOCK_DISLIKE " + block_dislike);
+                    if(!tremola.player[myId].block_dislike.includes(parseInt(player.QuestionSets[i].QuestionSetID))){
+                        console.log("NOT IN THE BLOCK_DISLIKE " + tremola.player[myId].block_dislike);
                         var row = `
                             <button id='btn:game' class='w100_flat_buttontext2'
                                 onclick='doNothing();'>
@@ -352,7 +353,7 @@ function enter_game(){
                                                               </button>`;
 
                     }else{
-                        console.log("IN THE BLOCK_DISLIKE "+ block_dislike );
+                        console.log("IN THE BLOCK_DISLIKE "+ tremola.player[myId].block_dislike );
                         var row = `
                                     <button id='btn:game' class='w100_flat_buttontext2'
                                         onclick='doNothing();'>
@@ -584,7 +585,12 @@ function storeAnswer(AnswerField, submitConfirmation){
         }else{
             console.log("AnswerField: "+ parseInt(AnswerField.id.substring(10)));
             console.log("Current Question: "+current_Question-1);
-            current_answers[current_Question-1][parseInt(AnswerField.id.substring(10))-1] = parseInt(AnswerField.id.substring(10));
+            if(current_answers[current_Question-1][parseInt(AnswerField.id.substring(10))-1]!=0){
+                current_answers[current_Question-1][parseInt(AnswerField.id.substring(10))-1] = 0;
+            }else{
+                current_answers[current_Question-1][parseInt(AnswerField.id.substring(10))-1] = parseInt(AnswerField.id.substring(10));
+            }
+
             jakob_setScenario("question1", current_Question, current_QuestionSet, parseInt(AnswerField.id.substring(10))-1);
         }
 
@@ -636,21 +642,32 @@ function submitAnswerQuestions(current_QuestionSet){
                 let cur_ans = current_answers[i].slice().sort();
                 console.log("IAM in in 634: "+ cur_ans)
                 correct_answers = 0;
-                for(let k = 0; k<sol.length; ++k){
-                    for(let s = 0; s<cur_ans.length; ++s){
-                        if(sol[k]==cur_ans[s]){
+                let mistakes = 0;
+                let diff = 0;
+                for(let s = 0; s<cur_ans.length; ++s){
+                    if(sol.includes(cur_ans[s])){
+                        ++correct_answers;
+                        console.log("correct: "+ correct_answers)
 
-                            ++correct_answers;
-                            console.log("correct: "+ correct_answers)
-                            break;
+                    }else if(cur_ans[s]==0){
+                        console.log("IN ZEROAREA");
 
-                        }
-
+                    }else if(cur_ans[s]!=0){
+                        ++mistakes;
+                        console.log("mistakes: "+ mistakes)
                     }
 
 
                 }
-                pointsCollected+= Math.ceil((correct_answers/sol.length)*target.Questions[i].points);
+
+                diff = correct_answers-mistakes;
+                if(diff<0){
+                     diff = 0;
+                }else{
+                    console.log("Correct answers: "+ (diff/sol.length));
+                }
+
+                pointsCollected+= Math.ceil((diff/sol.length)*target.Questions[i].points);
                 console.log("Partial points: " + pointsCollected);
 
             }
@@ -754,6 +771,10 @@ function praba_addQuestion() {
             <input type="number" name="question${questionCount}-points" required min="1" max="10">
           </div>
         `;
+    questionHTML+= ` <label>type: SCQ</label>
+                                    <input type="checkbox" name="question${questionCount}-typeSCQ" class="typeSCQ">`
+    questionHTML+= ` <label>type: MCQ</label>
+                                        <input type="checkbox" name="question${questionCount}-typeMCQ" class="typeMCQ">`
 
     for (let i = 0; i < 4; i++) {
             questionHTML += `
@@ -770,21 +791,51 @@ function praba_addQuestion() {
 
     questionDiv.innerHTML = questionHTML;
     questionsContainer.appendChild(questionDiv);
-/*
-    // Add event listeners to checkboxes to ensure only one can be checked
+
+     let typeSCQCheckbox = questionDiv.querySelector('.typeSCQ');
+     let typeMCQCheckbox = questionDiv.querySelector('.typeMCQ');
+    // Ensure only one type checkbox can be selected at a time
     const checkboxes = questionDiv.querySelectorAll('.correct-checkbox');
-    checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener('change', () => {
-            if (checkbox.checked) {
-                checkboxes.forEach((otherCheckbox) => {
-                    if (otherCheckbox !== checkbox) {
-                        otherCheckbox.checked = false;
-                    }
-                });
-            }
-        });
+    typeSCQCheckbox.addEventListener('change', () => {
+        if (typeSCQCheckbox.checked) {
+            typeMCQCheckbox.checked = false;
+        } else if (!typeMCQCheckbox.checked) {
+            // If both checkboxes are unchecked, alert the user
+            typeMCQCheckbox.checked = true;
+        }
+         checkboxes.forEach((otherCheckbox) => {otherCheckbox.checked = false;});
+
     });
-    */
+
+    typeMCQCheckbox.addEventListener('change', () => {
+        if (typeMCQCheckbox.checked) {
+            typeSCQCheckbox.checked = false;
+        } else if (!typeSCQCheckbox.checked) {
+            // If both checkboxes are unchecked, alert the user
+            typeSCQCheckbox.checked = true;
+        }
+        checkboxes.forEach((otherCheckbox) => {otherCheckbox.checked = false;});
+    });
+
+    // Add event listeners to checkboxes to ensure only one can be checked
+
+
+
+    checkboxes.forEach((checkbox) => {
+            checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    if (typeSCQCheckbox.checked){
+                        checkboxes.forEach((otherCheckbox) => {
+                            if (otherCheckbox !== checkbox) {
+                                otherCheckbox.checked = false;
+                            }
+                        });
+                    }
+                }
+            });
+
+    });
+
 
 
 
@@ -795,16 +846,28 @@ function praba_submitQuestionSet(event) {
     event.preventDefault();
     let temp1 = document.getElementById('questions-container');
     let temp2 = temp1.querySelectorAll('.question');
+
+
     let bol = false;
     for (let q of temp2) {
         const checkboxes = q.querySelectorAll('.correct-checkbox');
         const atLeastOneChecked = Array.from(checkboxes).some(cb => cb.checked);
-
+        let typeSCQCheckbox = q.querySelector('.typeSCQ');
+        let typeMCQCheckbox = q.querySelector('.typeMCQ');
         if (!atLeastOneChecked) {
             alert('Each question must have at least one correct answer.');
             bol = true;
         }
+           if ((!typeSCQCheckbox.checked)&&!typeMCQCheckbox.checked) {
+                   alert('Each question must have at least one type chosen.');
+                   bol = true;
+
+           }
+
     }
+
+
+
 
 
     if(!bol){
@@ -842,16 +905,15 @@ function praba_submitQuestionSet(event) {
                 if (!formData.has(`question${i}-answer${j}`)) break;
                 question.Answers.push(formData.get(`question${i}-answer${j}`));
                  if( formData.get(`question${i}-correct${j}`) === 'on'){
-                        ++n;
                         subSolution.push(j+1);
 
                  }
             }
             solution.push(subSolution);
-            if(n>1){
-                question.type = "MCQ";
-            }else{
+            if(formData.get(`question${i}-typeSCQ`) === 'on'){
                 question.type = "SCQ";
+            }else{
+                question.type = "MCQ";
 
             }
 

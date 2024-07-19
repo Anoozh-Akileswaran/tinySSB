@@ -144,9 +144,11 @@
         <h2>How does it work?</h2>
         <p>"Ranking": Look at the current Rank-List</p>
         <p>"Enter Game": If you want to answer some questions, just press on an open
-          Game.</p>
+          Game. <p>There are two different Question-types:</p><p> "SCQ" single choice Question</p> <p> "MCQ" multiple choice Question </p> <p>In case you thought,
+        that the questions were not reasonable, then press the "dislike"-button. After two dislikes, the responsible player will loose two points. </p> </p>
         <p>"Create Game: " If you want to create you own Game, press on "New Question Set" or if you
-          want to look at the Question Sets, that you created, press on "List Question Set".</p>
+          want to look at the Question Sets, that you created, press on "List Question Set". <p>You can create two different Questions: </p> <p> single choice Questions (SCQ)
+        and multiple choice Questions (MCQ)</p> <p>The choice depends on the type Box, you selected. If you choose SCQ, you can only select one correct Solution.</p> </p>
 
       </div>
     </div>
@@ -269,13 +271,14 @@
     <!-- PRABA HTML -->
     <div id='new-question-set-overlay' class='qr-overlay' style="display: none;">
       <div style="display:flex; justify-content: center;align-items: center; flex-direction: column; gap: 20px">
-        <div style="text-align: center">
-          <b>Create New Questionset</b> <br>
-        </div>
+
         <div id="question-set-form">
           <form id="questionset-form" onsubmit="praba_submitQuestionSet(event)">
             <div id="questions-container" class="scroll-area">
               <!-- Questions dynamically added here -->
+            </div>
+            <div style="text-align: center;">
+              <b>Create New Questionset</b>
             </div>
             <button id="btn:addQuestion" type="button" onclick="praba_addQuestion()">Add Question</button>
             <button id="btn:submitQuestion" type="submit">Submit Questionset</button>

@@ -278,21 +278,23 @@ textarea {
 }
 
 .modal {
-     display: none;
-     position: fixed;
-     z-index: 1;
-     justify-content: center;
-     font-weight: 500;
-     text-align: center;
-     width: 100%;
-     height: 30%;
-     background-color: rgb(0,0,0);
-     color: white;
-     background-color: rgba(0,0,0,0.4);
-     box-sizing: border-box;
-     overflow-y: auto;
-     overflow-x: 'hidden';
+    display: none;
+    position: fixed;
+    z-index: 1;
+    justify-content: center;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+    height: 30%;
+    background-color: rgb(0,0,0);
+    color: white;
+    background-color: rgba(0,0,0,0.4);
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: 'hidden';
 }
+
+
 
 
 /* --------------------------------------------------------------------------- */
@@ -772,13 +774,13 @@ input:checked + .slider:before {
     overflow-y: auto;
     overflow-x: 'hidden';
 }
-
 .QuestionSetContainerCSS2{
     height: 70%;
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: 'hidden';
 }
+
 
 .button-list-title {
     font-size: 18px;
@@ -828,18 +830,19 @@ input:checked + .slider:before {
 }
 
 .w100_flat_buttontext {
-     width: 100%;
-     height: 60px;
-     font-size: 20px;
-     cursor: pointer;
-     overflow-y:'scroll';
-     text-align: center;
-     line-height:2px;
-     padding: 6px;
-     margin-bottom: 5px;
+    width: 100%;
+    height: 60px;
+    font-size: 20px;
+    cursor: pointer;
+    overflow-y:'scroll';
+    text-align: center;
+    line-height:2px;
+    padding: 6px;
+    margin-bottom: 5px;
 
 
 }
+
 
 .w100_flat_buttontext2 {
       width: 100%;
@@ -867,26 +870,31 @@ input:checked + .slider:before {
 
 }
 
+
+
+
 /* Praba add question scroll functionality */
 .question {
     margin-bottom: 20px;
     border: 1px solid #ddd;
     background-color: #f9f9f9;
+    padding: 4px;
 }
 
 .answer {
     margin-bottom: 10px;
     background-color: #fff;
+    padding: 4px;
 }
 
 .scroll-area {
-    height: 400px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 20px;
-    position: relative;
-    top: -35px;
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 5px;
+        margin-bottom: 10px;
+        position: relative;
+        top: 0px;
 }
 
 .points-gathered-container {
@@ -895,6 +903,7 @@ input:checked + .slider:before {
     /*padding: 10px;*/
     box-sizing: border-box;
     margin-bottom: 20px; /* Adjust the space as needed */
+    padding: 4px;
 }
 
 .left-text {

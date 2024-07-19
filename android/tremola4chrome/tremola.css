@@ -878,21 +878,23 @@ input:checked + .slider:before {
     margin-bottom: 20px;
     border: 1px solid #ddd;
     background-color: #f9f9f9;
+    padding: 4px;
 }
 
 .answer {
     margin-bottom: 10px;
     background-color: #fff;
+    padding: 4px;
 }
 
 .scroll-area {
-    height: 400px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 10px;
-    margin-bottom: 20px;
-    position: relative;
-    top: -35px;
+        height: 400px;
+        overflow-y: auto;
+        border: 1px solid #ccc;
+        padding: 5px;
+        margin-bottom: 10px;
+        position: relative;
+        top: 0px;
 }
 
 .points-gathered-container {
@@ -901,6 +903,7 @@ input:checked + .slider:before {
     /*padding: 10px;*/
     box-sizing: border-box;
     margin-bottom: 20px; /* Adjust the space as needed */
+    padding: 4px;
 }
 
 .left-text {

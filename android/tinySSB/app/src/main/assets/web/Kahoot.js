@@ -34,7 +34,8 @@ function Kahoot_new_event(e){
             SendID: SendID,
             QuestionSets: [],
             playerScore: 0,
-            ignore: ignore
+            ignore: ignore,
+            block_dislike: []
         }
 
     }
@@ -82,12 +83,13 @@ function new_dislike_event( SendID ,args){
         for(let i = 0; i< tremola.player[m].QuestionSets.length; ++i){
             if(tremola.player[m].QuestionSets[i].QuestionSetID == questionSetID){
               if(myId == SendID){
-                    if(!block_dislike.includes(parseInt(tremola.player[m].QuestionSets[i].QuestionSetID))){
+                    if(!tremola.player[myId].block_dislike.includes(parseInt(tremola.player[m].QuestionSets[i].QuestionSetID))){
 
                             console.log("BLOCK_DISLIKE:"+block_dislike + "and"+ "MyQuestionSet:"+tremola.player[m].QuestionSets[i].QuestionSetID);
                             tremola.player[m].QuestionSets[i].dislike += 1;
                             checkNumberDislike(m, tremola.player[m].QuestionSets[i] );
-                            block_dislike.push(parseInt(questionSetID));
+                            tremola.player[myId].block_dislike.push(parseInt(questionSetID));
+                            listQuestionSet();
                             enter_game();
                             return;
 
@@ -396,7 +398,8 @@ function load_my_QuestionList() {
                    SendID: myId,
                    QuestionSets: [],
                    playerScore: 0,
-                   ignore: "true"
+                   ignore: "true",
+                   block_dislike: []
          }
 
     }
